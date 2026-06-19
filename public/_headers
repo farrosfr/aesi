@@ -26,8 +26,13 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
 
   # Cross-origin isolation (modest; helps SharedArrayBuffer if ever needed).
+  # NOTE: COEP "require-corp" blocks external images (bisnis.com,
+  # katadata.co.id, etc.) because they don't ship
+  # Cross-Origin-Resource-Policy: cross-origin. Switching to
+  # "credentialless" lets cross-origin images load without cookies,
+  # which is what we want for embedded third-party content.
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Embedder-Policy: credentialless
   Cross-Origin-Resource-Policy: same-site
 
   # Hint to clients (and CDNs behind us) that this site is served over HTTPS only.

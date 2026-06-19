@@ -48,5 +48,14 @@ export default defineConfig({
     'heading-2': 'text-3xl md:text-4xl font-bold leading-tight',
     'heading-3': 'text-2xl md:text-3xl font-semibold leading-snug',
     'eyebrow': 'text-sm uppercase tracking-widest text-primary font-semibold',
+    // Small utility-text links used in the header top bar (e.g.
+    // "Hubungi Kami", "Registrasi Anggota"). Without these definitions
+    // the browser default blue+underline shows through.
+    'utility-text': 'text-xs transition-colors',
+    // Re-add an underline only on hover, used in footer nav links and
+    // any place we want a real "click here" affordance.
+    'link-underline': 'underline underline-offset-2 hover:no-underline transition-colors',
+    // Main nav links in the desktop header.
+    'nav-link': 'block px-3 py-2 text-sm font-medium transition-colors',
   },
 });

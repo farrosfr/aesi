@@ -230,6 +230,7 @@ const isActive = (href?: string) =>
   #main-header .logo-color { display: block; }
   #main-header .nav-link { color: inherit; }
   #main-header .nav-link:hover { color: #00992e; }
+  #main-header:not(.transparent) .nav-link.active { color: var(--color-primary); font-weight: 600; }
   #main-header.transparent:not(.scrolled) .nav-link:hover { color: #ffffff; opacity: 0.85; }
   #main-header.transparent:not(.scrolled) .nav-link.active { color: #ffffff; opacity: 1; font-weight: 600; }
   #main-header .utility-text { color: inherit; }

@@ -96,9 +96,16 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
           <div class="container-wide w-full pb-20 lg:pb-24">
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
               <div class="text-white max-w-3xl" style="text-shadow: 0 2px 12px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.6);">
-                <h1 class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5" style="text-shadow: 0 4px 24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.65);">
-                  {slide.title}
+                <h1 class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5 sr-only">
+                  Asosiasi Energi Surya Indonesia
                 </h1>
+                <p
+                  aria-hidden="true"
+                  class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5 text-balance"
+                  style="text-shadow: 0 4px 24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.65);"
+                >
+                  {slide.title}
+                </p>
                 <p class="text-lg sm:text-xl lg:text-2xl text-white font-light italic">
                   "{slide.tagline}"
                 </p>

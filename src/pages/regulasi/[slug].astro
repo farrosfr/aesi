@@ -19,7 +19,10 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
 const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
 ---
 
-<Base title={reg.title} description={stripHtml(reg.title)}>
+<Base
+  title={reg.title}
+  description={`Ringkasan dan informasi lengkap tentang ${reg.title}. Regulasi terkait energi surya yang dihimpun oleh Asosiasi Energi Surya Indonesia (AESI).`}
+>
   <section class="bg-white pt-12 pb-6 border-b border-gray-200">
     <div class="container-narrow">
       <nav class="text-sm text-ink-muted mb-4">
