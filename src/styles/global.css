@@ -81,6 +81,8 @@ body {
    Hero carousel
    ============================================================ */
 .hero-slide {
+  position: absolute;
+  inset: 0;
   opacity: 0;
   transition: opacity 1.4s ease-in-out;
   pointer-events: none;
@@ -88,6 +90,13 @@ body {
 .hero-slide.active {
   opacity: 1;
   pointer-events: auto;
+}
+.hero-slide-bg {
+  position: absolute;
+  inset: -8% 0 -8% 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide { transition: opacity 0.2s; }
