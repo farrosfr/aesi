@@ -2,17 +2,18 @@
 /**
  * Fullscreen search modal. Triggered by data-search-trigger buttons in the
  * header. Closes on ESC, backdrop click, or X button.
- * Renders no UI when closed (opacity-0 pointer-events-none).
  */
 ---
 
-<dialog
+<div
   data-search-modal
+  aria-hidden="true"
+  role="dialog"
   aria-label="Pencarian"
-  class="fixed inset-0 z-[60] m-0 max-w-none w-full h-full p-0 bg-transparent text-left"
+  class="fixed inset-0 z-[60] hidden"
 >
   <div data-search-backdrop class="absolute inset-0 bg-ink/80 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
-  <div data-search-panel class="relative h-full flex items-start justify-center pt-24 px-4">
+  <div data-search-panel class="relative h-full flex items-start justify-center pt-24 px-4 transition-all duration-300 opacity-0 -translate-y-4">
     <div class="w-full max-w-2xl">
       <form data-search-form action="/search" method="get" class="relative">
         <span class="i-carbon-search absolute left-5 top-1/2 -translate-y-1/2 text-2xl text-primary" aria-hidden="true"></span>
@@ -61,4 +62,4 @@
       </div>
     </div>
   </div>
-</dialog>
+</div>

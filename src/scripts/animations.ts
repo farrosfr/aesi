@@ -112,29 +112,53 @@ if (header) {
 }
 
 // ----- Search modal -----
-const searchModal = document.querySelector<HTMLDialogElement>('[data-search-modal]');
+const searchModal = document.querySelector<HTMLElement>('[data-search-modal]');
 if (searchModal) {
   const open = () => {
-    searchModal.classList.add('open');
+    searchModal.classList.remove('hidden');
     searchModal.setAttribute('aria-hidden', 'false');
-    const backdrop = searchModal.querySelector('[data-search-backdrop]');
-    const panel = searchModal.querySelector('[data-search-panel]');
+    const backdrop = searchModal.querySelector<HTMLElement>('[data-search-backdrop]');
+    const panel = searchModal.querySelector<HTMLElement>('[data-search-panel]');
     backdrop?.classList.replace('opacity-0', 'opacity-100');
-    panel?.classList.replace('opacity-0', 'translate-y-4', 'opacity-100', 'translate-y-0');
+    panel?.classList.replace('opacity-0', '-translate-y-4', 'opacity-100', 'translate-y-0');
     setTimeout(() => (searchModal.querySelector<HTMLInputElement>('[data-search-input]'))?.focus(), 100);
+    document.body.style.overflow = 'hidden';
   };
   const close = () => {
-    searchModal.classList.remove('open');
+    searchModal.classList.add('hidden');
     searchModal.setAttribute('aria-hidden', 'true');
-    const backdrop = searchModal.querySelector('[data-search-backdrop]');
-    const panel = searchModal.querySelector('[data-search-panel]');
+    const backdrop = searchModal.querySelector<HTMLElement>('[data-search-backdrop]');
+    const panel = searchModal.querySelector<HTMLElement>('[data-search-panel]');
     backdrop?.classList.replace('opacity-100', 'opacity-0');
-    panel?.classList.replace('opacity-100', 'translate-y-0', 'opacity-0', 'translate-y-4');
+    panel?.classList.replace('opacity-100', 'translate-y-0', 'opacity-0', '-translate-y-4');
+    document.body.style.overflow = '';
   };
-  document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', open));
+  document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); open(); }));
   document.querySelectorAll('[data-search-close], [data-search-backdrop]').forEach((b) => b.addEventListener('click', close));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchModal.classList.contains('open')) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) close(); });
 }
+
+// ----- Language switcher trigger -----
+document.querySelectorAll<HTMLElement>('[data-lang-trigger]').forEach((trigger) => {
+  const wrap = trigger.closest('[data-lang-switcher]');
+  const menu = wrap?.querySelector<HTMLElement>('[data-lang-menu]');
+  if (!menu) return;
+  const toggle = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isOpen = menu.classList.contains('open');
+    document.querySelectorAll('.lang-menu.open').forEach((m) => m.classList.remove('open'));
+    if (!isOpen) menu.classList.add('open');
+    trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  };
+  trigger.addEventListener('click', toggle);
+  document.addEventListener('click', (e) => {
+    if (!wrap?.contains(e.target as Node)) {
+      menu.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
 
 // ----- Language switcher (visual placeholder) -----
 document.querySelectorAll('[data-lang]').forEach((el) => {
