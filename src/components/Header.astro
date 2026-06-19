@@ -69,19 +69,24 @@ const isActive = (href?: string) =>
   {/* ROW 2: main nav */}
   <div class="container-wide flex items-center justify-between h-16 lg:h-20">
     <a href="/" class="flex items-center gap-3 shrink-0">
-      <img
-        src="/uploads/static/AESI_Logo_White.png"
-        alt={site.name}
-        class="logo-white h-10 lg:h-12 w-auto"
-        width="48"
-        height="48"
-      />
+      {/*
+        Note: we deliberately do NOT render a second logo with
+        class="logo-white" here. The previous build had one but the only
+        white logo asset (public/uploads/static/AESI_Logo_White.png) is
+        actually a 1920x1080 hero banner (not a small icon) that someone
+        accidentally uploaded with the wrong filename. At the rendered
+        size of h-12 (48px) it became an 85x48 mostly-white rectangle that
+        looked like "empty white space" on the left of the header. The
+        CSS rule below inverts the color logo when the header sits over
+        a dark hero, so we get a white-look logo without needing a
+        separate white asset.
+      */}
       <img
         src="/uploads/static/Logo-AESI-1-1.png"
         alt={site.name}
-        class="logo-color h-10 lg:h-12 w-auto"
-        width="48"
-        height="48"
+        class="logo-color h-10 lg:h-12 w-auto transition-[filter] duration-200"
+        width="297"
+        height="141"
       />
       <span class="hidden sm:inline-block font-heading font-bold text-base lg:text-lg leading-tight">
         {site.name}
@@ -223,9 +228,9 @@ const isActive = (href?: string) =>
     color: #1a1a1a;
   }
   #main-header .logo-color { display: block; }
-  #main-header .logo-white { display: none; }
-  #main-header.transparent:not(.scrolled) .logo-color { display: none; }
-  #main-header.transparent:not(.scrolled) .logo-white { display: block; }
+  #main-header.transparent:not(.scrolled) .logo-color {
+    filter: brightness(0) invert(1);
+  }
   #main-header .nav-link { color: inherit; }
   #main-header .nav-link:hover { color: #00992e; }
   #main-header.transparent:not(.scrolled) .nav-link:hover { color: #ffffff; opacity: 0.85; }

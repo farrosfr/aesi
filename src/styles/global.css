@@ -569,10 +569,16 @@ body {
   backdrop-filter: blur(8px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-#main-header .logo-light { display: none; }
 #main-header .logo-color { display: block; }
-#main-header.transparent:not(.scrolled) .logo-light { display: block; }
-#main-header.transparent:not(.scrolled) .logo-color { display: none; }
+/* When the header sits over a dark hero (initial state, transparent
+   background, not yet scrolled), invert the logo so the same color
+   asset reads as a white logo. We avoid shipping a second logo file
+   because the original "white logo" was actually a misnamed 1920x1080
+   hero banner. The invert() filter in CSS is essentially free and
+   gives us a usable white-look logo on dark backgrounds. */
+#main-header.transparent:not(.scrolled) .logo-color {
+  filter: brightness(0) invert(1);
+}
 #main-header.transparent:not(.scrolled) .nav-text { color: #fff; }
 #main-header.transparent:not(.scrolled) .nav-text:hover { color: var(--color-primary); }
 #main-header.transparent:not(.scrolled) .utility-link { color: rgba(255, 255, 255, 0.85); }
