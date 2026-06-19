@@ -136,7 +136,8 @@ if (header) {
 const searchModal = document.querySelector<HTMLElement>('[data-search-modal]');
 if (searchModal) {
   const open = () => {
-    searchModal.classList.remove('hidden');
+    searchModal.classList.add('open');
+    searchModal.removeAttribute('hidden');
     searchModal.setAttribute('aria-hidden', 'false');
     const backdrop = searchModal.querySelector<HTMLElement>('[data-search-backdrop]');
     const panel = searchModal.querySelector<HTMLElement>('[data-search-panel]');
@@ -146,7 +147,8 @@ if (searchModal) {
     document.body.style.overflow = 'hidden';
   };
   const close = () => {
-    searchModal.classList.add('hidden');
+    searchModal.classList.remove('open');
+    searchModal.setAttribute('hidden', '');
     searchModal.setAttribute('aria-hidden', 'true');
     const backdrop = searchModal.querySelector<HTMLElement>('[data-search-backdrop]');
     const panel = searchModal.querySelector<HTMLElement>('[data-search-panel]');

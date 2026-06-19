@@ -158,8 +158,24 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 80px 16px 16px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s var(--ease-out-quart), visibility .25s var(--ease-out-quart);
 }
-.search-modal[hidden] { display: none; }
+.search-modal.open,
+.search-modal[open] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+/* Backwards-compat: old code used `hidden` as a class name; the
+   `[hidden]` attribute selector below did NOT match `.hidden` so the
+   modal stayed visible+blurring even when closed. Match both. */
+.search-modal.hidden,
+.search-modal[hidden] {
+  display: none !important;
+}
 .search-backdrop {
   position: absolute;
   inset: 0;
