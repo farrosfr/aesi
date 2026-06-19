@@ -1,0 +1,35 @@
+---
+/**
+ * Dismissable cookie consent banner, fixed bottom. Uses localStorage to
+ * remember user choice. Defaults to shown on first visit.
+ */
+---
+
+<div
+  data-cookie-consent
+  role="dialog"
+  aria-label="Pemberitahuan cookie"
+  class="fixed bottom-0 inset-x-0 z-50 p-4 pointer-events-none"
+>
+  <div class="container-wide">
+    <div class="bg-white rounded-2xl shadow-2xl border border-surface p-5 lg:p-6 flex flex-col lg:flex-row lg:items-center gap-4 max-w-4xl mx-auto translate-y-full opacity-0 transition-all duration-500">
+      <span class="i-carbon-cookie text-3xl text-accent shrink-0" aria-hidden="true"></span>
+      <p class="text-sm text-ink-muted flex-1">
+        Kami menggunakan cookie untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui
+        <a href="/kebijakan-privasi" class="text-primary hover:underline">Kebijakan Privasi</a> kami.
+      </p>
+      <div class="flex gap-2 shrink-0">
+        <button
+          type="button"
+          data-cookie-reject
+          class="h-10 px-4 rounded-xl text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface transition-colors"
+        >Tolak</button>
+        <button
+          type="button"
+          data-cookie-accept
+          class="h-10 px-5 rounded-xl text-sm font-medium bg-primary text-white hover:bg-primary-dark transition-colors"
+        >Terima</button>
+      </div>
+    </div>
+  </div>
+</div>

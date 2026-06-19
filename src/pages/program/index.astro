@@ -1,29 +1,85 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SectionTabs from '../../components/SectionTabs.astro';
 
 const programs = [
   {
     code: 'WKU 1',
     title: 'Kebijakan dan Regulasi',
-    desc: 'Pemetaan dan Evaluasi Regulasi Terkait Energi Surya untuk memperkuat landasan kebijakan percepatan pengembangan PLTS di Indonesia.',
+    shortDesc: 'Pemetaan dan Evaluasi Regulasi Terkait Energi Surya untuk memperkuat landasan kebijakan percepatan pengembangan PLTS di Indonesia.',
+    longDesc: `
+      <p>WKU 1 fokus pada <strong>pemetaan, evaluasi, dan advokasi regulasi</strong> di sektor energi surya Indonesia. Kami bekerja sama dengan Kementerian ESDM, Bappenas, DPR, dan lembaga terkait untuk memastikan kerangka regulasi mendukung akselerasi PLTS.</p>
+      <h3>Program Unggulan</h3>
+      <ul>
+        <li><strong>Forum Regulasi Nasional</strong> — diskusi triwulanan dengan regulator dan pelaku industri</li>
+        <li><strong>Peta Jalan Regulasi PLTS 2025-2035</strong> — dokumen posisi yang disusun bersama anggota</li>
+        <li><strong>Advokasi Tarif dan Insentif</strong> — mendorong skema tarif yang mendukung investasi PLTS</li>
+        <li><strong>Capacity Building untuk Pemda</strong> — pelatihan perizinan dan perencanaan energi daerah</li>
+      </ul>
+      <h3>Hasil 2024-2025</h3>
+      <ul>
+        <li>Kontribusi pada revisi Permen ESDM No. 26/2021 tentang PLTS Atap</li>
+        <li>5 rekomendasi kebijakan yang diadopsi regulator</li>
+        <li>3 forum nasional dengan 200+ peserta</li>
+      </ul>
+    `,
     href: '/program/wku-1/',
     img: '/uploads/content/Frame-319.png',
   },
   {
     code: 'WKU 2',
     title: 'Riset dan Teknologi',
-    desc: 'Memperkuat ekosistem Pembangkit Listrik Tenaga Surya (PLTS) di Indonesia melalui riset, inovasi, dan pengembangan teknologi.',
+    shortDesc: 'Memperkuat ekosistem Pembangkit Listrik Tenaga Surya (PLTS) di Indonesia melalui riset, inovasi, dan pengembangan teknologi.',
+    longDesc: `
+      <p>WKU 2 mengkoordinasikan <strong>riset, inovasi, dan standardisasi teknologi</strong> PLTS di Indonesia. Kami menjembatani akademisi, litbang, dan industri untuk memastikan adopsi teknologi yang tepat guna.</p>
+      <h3>Program Unggulan</h3>
+      <ul>
+        <li><strong>Standar Nasional Indonesia (SNI) PLTS</strong> — kontribusi pada penyusunan dan revisi SNI</li>
+        <li><strong>Riset Terapan Efisiensi Modul</strong> — pengujian di kondisi tropis Indonesia</li>
+        <li><strong>Hackathon Solar Innovation</strong> — kompetisi tahunan untuk mahasiswa dan startup</li>
+        <li><strong>Database Proyek PLTS</strong> — repositori terbuka kapasitas terpasang, lokasi, dan teknologi</li>
+      </ul>
+      <h3>Hasil 2024-2025</h3>
+      <ul>
+        <li>8 publikasi riset di jurnal nasional dan internasional</li>
+        <li>3 standar baru SNI PLTS</li>
+        <li>120+ peserta hackathon dari 25 universitas</li>
+      </ul>
+    `,
     href: '/program/wku-2/',
     img: '/uploads/content/Frame-319-1.png',
   },
   {
     code: 'WKU 3',
     title: 'Kerja Sama Antar Lembaga',
-    desc: 'Menjembatani kerjasama strategis dengan berbagai pemangku kepentingan untuk menumbuhkan inovasi dan investasi di industri energi surya.',
+    shortDesc: 'Menjembatani kerjasama strategis dengan berbagai pemangku kepentingan untuk menumbuhkan inovasi dan investasi di industri energi surya.',
+    longDesc: `
+      <p>WKU 3 mengelola <strong>kolaborasi internasional dan domestik</strong> untuk membuka peluang bisnis, investasi, dan transfer teknologi. Kami adalah jembatan antara anggota AESI dengan pasar global.</p>
+      <h3>Program Unggulan</h3>
+      <ul>
+        <li><strong>Indonesia Solar Summit</strong> — konferensi tahunan dengan pembicara internasional</li>
+        <li><strong>Trade Mission ke Pameran Global</strong> — Intersolar, RE+, ASEAN Clean Energy Week</li>
+        <li><strong>Business Matching</strong> — mempertemukan anggota dengan buyer dan investor</li>
+        <li><strong>Kerjasama Bilateral</strong> — MoU dengan asosiasi surya di 8 negara</li>
+      </ul>
+      <h3>Hasil 2024-2025</h3>
+      <ul>
+        <li>Konferensi dengan 500+ peserta dari 15 negara</li>
+        <li>USD 50jt+ potensi bisnis difasilitasi</li>
+        <li>4 MoU internasional baru</li>
+      </ul>
+    `,
     href: '/program/wku-3/',
     img: '/uploads/content/Frame-319-2.png',
   },
 ];
+
+const tabs = programs.map((p) => ({
+  id: p.code.toLowerCase().replace(' ', '-'),
+  label: `${p.code} — ${p.title}`,
+  icon: ['i-carbon-document', 'i-carbon-research', 'i-carbon-connect'][programs.indexOf(p)],
+  content: p.longDesc,
+}));
 ---
 
 <Base title="Program Kerja">
@@ -38,20 +94,39 @@ const programs = [
   </section>
 
   <section class="section bg-white">
-    <div class="container-wide grid md:grid-cols-3 gap-6 lg:gap-8">
-      {programs.map((p) => (
-        <a href={p.href} class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-100">
-          <img src={p.img} alt={p.title} class="w-full h-48 object-cover" loading="lazy" />
+    <div class="container-wide grid md:grid-cols-3 gap-6 lg:gap-8" data-in-view>
+      {programs.map((p, i) => (
+        <a
+          href={p.href}
+          class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-100 card-shadow"
+          style={`--i: ${i}`}
+        >
+          <div class="card-image overflow-hidden h-48">
+            <img src={p.img} alt={p.title} class="w-full h-full object-cover" loading="lazy" />
+          </div>
           <div class="p-6">
             <p class="text-xs uppercase tracking-widest text-primary font-bold mb-2">{p.code}</p>
             <h3 class="heading-3 text-xl mb-3 group-hover:text-primary transition-colors">{p.title}</h3>
-            <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.desc}</p>
+            <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.shortDesc}</p>
             <span class="inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
-              Pelajari Program <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+              Halaman Program <span class="i-carbon-arrow-right" aria-hidden="true"></span>
             </span>
           </div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="section bg-surface">
+    <div class="container-wide" data-in-view>
+      <div class="text-center mb-10">
+        <p class="eyebrow text-primary mb-3">Detail Program</p>
+        <h2 class="heading-2">Pelajari Lebih Lanjut</h2>
+        <p class="text-ink-muted mt-3 max-w-2xl mx-auto">
+          Pilih salah satu program di bawah untuk melihat kegiatan unggulan dan capaian kami.
+        </p>
+      </div>
+      <SectionTabs tabs={tabs} />
     </div>
   </section>
 </Base>

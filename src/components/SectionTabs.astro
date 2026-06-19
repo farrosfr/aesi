@@ -1,0 +1,64 @@
+---
+/**
+ * Reusable section tabs. Renders a tab list + corresponding panels.
+ * Each tab is a button with data-tab-target="<panel-id>". Each panel
+ * is a div with id="<panel-id>" and data-tab-panel.
+ *
+ * Usage:
+ *   <SectionTabs tabs={[{ id, label, content? }]}>
+ *     <!-- optional: when content is a string, render that as a paragraph
+ *          when content is a slot, render the slot for that tab -->
+ *   </SectionTabs>
+ *
+ * Or simpler: pass tabs with HTML content and we just render the content.
+ */
+interface Tab {
+  id: string;
+  label: string;
+  content: string;        // HTML string (trusted, from data files)
+  icon?: string;          // UnoCSS iconify class, e.g. "i-carbon-document"
+}
+
+interface Props {
+  tabs: Tab[];
+  initial?: string;
+  class?: string;
+}
+
+const { tabs, initial, class: className = '' } = Astro.props;
+const initialId = initial ?? tabs[0]?.id;
+---
+
+<div data-tabs class={className}>
+  <div role="tablist" class="flex flex-wrap gap-2 border-b border-surface mb-8 overflow-x-auto">
+    {tabs.map((tab, idx) => (
+      <button
+        type="button"
+        role="tab"
+        id={`tab-${tab.id}`}
+        aria-controls={`panel-${tab.id}`}
+        aria-selected={tab.id === initialId ? 'true' : 'false'}
+        data-tab-target={tab.id}
+        class={`flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 -mb-px transition-colors whitespace-nowrap ${
+          tab.id === initialId
+            ? 'border-primary text-primary'
+            : 'border-transparent text-ink-muted hover:text-ink hover:border-surface-darker'
+        }`}
+      >
+        {tab.icon && <span class={`${tab.icon} text-lg`} aria-hidden="true"></span>}
+        {tab.label}
+      </button>
+    ))}
+  </div>
+  {tabs.map((tab) => (
+    <div
+      role="tabpanel"
+      id={`panel-${tab.id}`}
+      aria-labelledby={`tab-${tab.id}`}
+      data-tab-panel={tab.id}
+      hidden={tab.id !== initialId}
+      class="prose prose-lg max-w-none"
+      set:html={tab.content}
+    />
+  ))}
+</div>
