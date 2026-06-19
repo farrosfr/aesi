@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# generated types
+.env
+.env.production
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+bun-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/
+.idea/
+
+# env files
+.env
+.env.local
+.env.*.local

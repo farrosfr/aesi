@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import { memberCategories, totalMembers } from '../data/members';
+---
+
+<Base title="Anggota">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">AESI</p>
+      <h1 class="heading-1 text-white mb-4">Anggota Kami</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Lebih dari {totalMembers} perusahaan dan lembaga di berbagai sektor energi surya Indonesia, bersama kami mempercepat transisi energi bersih.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="bg-surface-muted rounded-2xl p-8 lg:p-12 mb-12">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="heading-3 mb-4">Bergabunglah Bersama Kami</h2>
+            <p class="text-ink-muted leading-relaxed mb-4">
+              AESI menerima keanggotaan dari pihak-pihak yang memiliki bidang usaha atau ketertarikan pada pengembangan energi surya. Ditujukan untuk perusahaan yang bergerak di bidang yang relevan dengan AESI, atau memiliki ketertarikan dalam mendukung visi dan misi organisasi.
+            </p>
+            <p class="text-sm text-ink-muted">
+              Pendaftaran anggota dibuka sepanjang tahun dari <strong>1 Januari hingga 31 Desember</strong> tahun berjalan. Biaya dihitung pro-rata untuk pendaftar di tengah periode.
+            </p>
+          </div>
+          <div id="gabung" class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="font-semibold text-lg mb-3">Manfaat Menjadi Anggota</h3>
+            <ul class="space-y-2 text-sm text-ink-muted">
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Bukti keanggotaan (berlaku untuk 5 orang)</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Logo dan profil pendek di website</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Akses kegiatan AESI termasuk gathering</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Akses ke grup anggota</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Newsletter bulanan dan publikasi AESI</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Meeting offline bersama stakeholder</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Calendar program kerja tahunan</li>
+              <li class="flex gap-2"><span class="i-carbon-checkmark text-primary shrink-0" aria-hidden="true"></span> Peluang co-host event &amp; publikasi</li>
+            </ul>
+            <a href="/kontak/" class="btn-primary w-full mt-6 text-center">Gabung Sekarang</a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="heading-3 mb-8 text-center">Daftar Anggota per Kategori</h2>
+
+      {memberCategories.map((cat) => cat.members.length > 0 && (
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-primary mb-6 pb-2 border-b border-gray-200">
+            {cat.label}
+            <span class="text-sm font-normal text-ink-subtle ml-2">({cat.members.length})</span>
+          </h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {cat.members.map((m) => (
+              <div class="aspect-[3/2] bg-white border border-gray-200 rounded-md flex items-center justify-center p-3 hover:border-primary hover:shadow-md transition-all" title={m.name}>
+                <img
+                  src={`/uploads/members/${m.logo}`}
+                  alt={m.name}
+                  class="max-w-full max-h-full object-contain"
+                  loading="lazy"
+                  width="120"
+                  height="80"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section bg-gradient-to-br from-primary to-primary-dark text-white text-center">
+    <div class="container-narrow">
+      <h2 class="heading-2 text-white mb-4">Gabung bersama kami untuk mewujudkan Indonesia juara energi surya!</h2>
+      <a href="/kontak/" class="inline-flex items-center gap-2 px-8 py-4 rounded-md bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors mt-4">
+        Gabung Sekarang
+        <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+</Base>

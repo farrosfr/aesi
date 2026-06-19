@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const programs = [
+  {
+    code: 'WKU 1',
+    title: 'Kebijakan dan Regulasi',
+    desc: 'Pemetaan dan Evaluasi Regulasi Terkait Energi Surya untuk memperkuat landasan kebijakan percepatan pengembangan PLTS di Indonesia.',
+    href: '/program/wku-1/',
+    img: '/uploads/content/Frame-319.png',
+  },
+  {
+    code: 'WKU 2',
+    title: 'Riset dan Teknologi',
+    desc: 'Memperkuat ekosistem Pembangkit Listrik Tenaga Surya (PLTS) di Indonesia melalui riset, inovasi, dan pengembangan teknologi.',
+    href: '/program/wku-2/',
+    img: '/uploads/content/Frame-319-1.png',
+  },
+  {
+    code: 'WKU 3',
+    title: 'Kerja Sama Antar Lembaga',
+    desc: 'Menjembatani kerjasama strategis dengan berbagai pemangku kepentingan untuk menumbuhkan inovasi dan investasi di industri energi surya.',
+    href: '/program/wku-3/',
+    img: '/uploads/content/Frame-319-2.png',
+  },
+];
+---
+
+<Base title="Program Kerja">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Program Kerja</p>
+      <h1 class="heading-1 text-white mb-4">Tiga Pilar Utama AESI</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Kami menjalankan program kerja melalui tiga Wakil Ketua Umum (WKU), masing-masing fokus pada bidang strategis untuk pengembangan energi surya Indonesia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-wide grid md:grid-cols-3 gap-6 lg:gap-8">
+      {programs.map((p) => (
+        <a href={p.href} class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-100">
+          <img src={p.img} alt={p.title} class="w-full h-48 object-cover" loading="lazy" />
+          <div class="p-6">
+            <p class="text-xs uppercase tracking-widest text-primary font-bold mb-2">{p.code}</p>
+            <h3 class="heading-3 text-xl mb-3 group-hover:text-primary transition-colors">{p.title}</h3>
+            <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.desc}</p>
+            <span class="inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+              Pelajari Program <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

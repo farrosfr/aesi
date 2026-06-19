@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import wpData from '../../data/wp-content.json';
+
+const articles = wpData.artikel;
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const featured = articles[0];
+const rest = articles.slice(1);
+---
+
+<Base title="Artikel & Berita">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Knowledge Hub</p>
+      <h1 class="heading-1 text-white mb-4">Artikel &amp; Berita</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Update terbaru seputar industri energi surya Indonesia, kebijakan, riset, dan event.
+      </p>
+    </div>
+  </section>
+
+  {featured && (
+    <section class="section bg-white border-b border-gray-200">
+      <div class="container-wide">
+        <a href={`/artikel/${featured.slug}/`} class="group grid lg:grid-cols-2 gap-8 items-center">
+          {featured.featured_image ? (
+            <img
+              src={featured.featured_image.replace('https://aesi.or.id', '')}
+              alt={featured.title}
+              class="rounded-xl w-full aspect-video object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div class="rounded-xl aspect-video bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <span class="i-carbon-sun text-7xl text-primary" aria-hidden="true"></span>
+            </div>
+          )}
+          <div>
+            <p class="eyebrow mb-3">Berita Utama</p>
+            <time class="text-sm text-ink-subtle" datetime={featured.date}>{dateFmt(featured.date)}</time>
+            <h2 class="heading-2 mt-2 mb-4 group-hover:text-primary transition-colors">{featured.title}</h2>
+            <p class="text-ink-muted leading-relaxed mb-4 line-clamp-4">{featured.excerpt}</p>
+            <span class="inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+              Baca Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <section class="section bg-surface-muted">
+    <div class="container-wide">
+      <h2 class="heading-3 mb-8">Artikel Lainnya</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {rest.map((a) => (
+          <a href={`/artikel/${a.slug}/`} class="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all">
+            {a.featured_image ? (
+              <img
+                src={a.featured_image.replace('https://aesi.or.id', '')}
+                alt={a.title}
+                class="w-full h-44 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-44 bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center">
+                <span class="i-carbon-sun text-5xl text-primary" aria-hidden="true"></span>
+              </div>
+            )}
+            <div class="p-5">
+              <time class="text-xs text-ink-subtle uppercase tracking-wider" datetime={a.date}>
+                {dateFmt(a.date)}
+              </time>
+              <h3 class="font-semibold text-base mt-2 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                {a.title}
+              </h3>
+              <p class="text-sm text-ink-muted line-clamp-2">{a.excerpt}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

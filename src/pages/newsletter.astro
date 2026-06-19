@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import wpData from '../data/wp-content.json';
+
+const articles = wpData.artikel.slice(0, 12);
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title="Newsletter">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Knowledge Hub</p>
+      <h1 class="heading-1 text-white mb-4">Newsletter AESI</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Update publikasi, kegiatan, dan liputan dari AESI.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-wide max-w-4xl">
+      <div class="space-y-6">
+        {articles.map((a) => (
+          <a
+            href={`/artikel/${a.slug}/`}
+            class="group flex flex-col sm:flex-row gap-6 bg-surface-muted rounded-xl p-6 hover:shadow-lg transition-shadow"
+          >
+            {a.featured_image ? (
+              <img
+                src={a.featured_image.replace('https://aesi.or.id', '')}
+                alt={a.title}
+                class="w-full sm:w-48 h-32 object-cover rounded-md shrink-0"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full sm:w-48 h-32 bg-gradient-to-br from-primary/15 to-accent/15 rounded-md shrink-0 flex items-center justify-center">
+                <span class="i-carbon-sun text-4xl text-primary" aria-hidden="true"></span>
+              </div>
+            )}
+            <div class="flex-1">
+              <time class="text-xs text-ink-subtle uppercase tracking-wider" datetime={a.date}>
+                {dateFmt(a.date)}
+              </time>
+              <h2 class="font-semibold text-lg mt-2 mb-2 group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                {a.title}
+              </h2>
+              <p class="text-sm text-ink-muted line-clamp-2">{a.excerpt}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

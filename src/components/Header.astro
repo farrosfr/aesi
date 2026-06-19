@@ -1,0 +1,113 @@
+---
+import { navigation, site, contact } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const isActive = (href?: string) => href === pathname || (href && href !== '/' && pathname.startsWith(href));
+---
+
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+  <div class="container-wide flex items-center justify-between h-16 lg:h-20">
+    <a href="/" class="flex items-center gap-3 shrink-0">
+      <img
+        src="/uploads/static/Logo-AESI-1-1.png"
+        alt={site.name}
+        class="h-10 lg:h-12 w-auto"
+        width="48"
+        height="48"
+      />
+      <span class="hidden sm:inline-block font-heading font-bold text-lg text-ink leading-tight">
+        {site.name}<br/>
+        <span class="text-xs font-normal text-ink-muted">{site.fullName}</span>
+      </span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-1" aria-label="Menu utama">
+      {navigation.map((item) => (
+        <div class="relative group">
+          {item.children ? (
+            <>
+              <button
+                class={`px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
+                aria-expanded="false"
+              >
+                {item.label}
+                <span class="i-carbon-chevron-down ml-1 align-middle" aria-hidden="true"></span>
+              </button>
+              <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 absolute top-full left-0 min-w-[16rem] bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all">
+                {item.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class={`block px-4 py-2 text-sm hover:bg-gray-50 ${isActive(child.href) ? 'text-primary font-medium' : 'text-ink'}`}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </>
+          ) : (
+            <a
+              href={item.href}
+              class={`px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
+            >
+              {item.label}
+            </a>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <a href="/anggota/#gabung" class="hidden lg:inline-flex btn-primary text-sm">
+      Gabung Sekarang
+    </a>
+
+    <button
+      id="mobile-menu-button"
+      class="lg:hidden p-2 rounded-md hover:bg-gray-100"
+      aria-label="Buka menu"
+      aria-expanded="false"
+    >
+      <span class="i-carbon-menu block text-2xl" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200 bg-white">
+    <nav class="container-wide py-4 flex flex-col gap-1" aria-label="Menu seluler">
+      {navigation.map((item) => (
+        <div class="border-b border-gray-100 last:border-b-0 py-2">
+          <a
+            href={item.href}
+            class={`block px-3 py-2 font-medium ${isActive(item.href) ? 'text-primary' : 'text-ink'}`}
+          >
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="ml-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 pl-3">
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class={`block py-1 text-sm ${isActive(child.href) ? 'text-primary font-medium' : 'text-ink-muted'}`}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      <a href="/anggota/#gabung" class="btn-primary mt-4 text-center">
+        Gabung Sekarang
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  }
+</script>

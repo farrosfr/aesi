@@ -1,0 +1,212 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, contact } from '../data/site';
+import { totalMembers } from '../data/members';
+import wpData from '../data/wp-content.json';
+
+const artikel = wpData.artikel.slice(0, 3);
+const stats = [
+  { label: 'Perusahaan dan Lembaga', value: `${totalMembers}+` },
+  { label: 'Kontribusi Energi (MW)', value: '500+' },
+  { label: 'Tahun Beroperasi', value: `${new Date().getFullYear() - 2016}` },
+  { label: 'Program Aktif', value: '3' },
+];
+
+const programs = [
+  {
+    title: 'WKU 1 - Kebijakan dan Regulasi',
+    desc: 'Pemetaan dan Evaluasi Regulasi Terkait Energi Surya untuk memperkuat landasan kebijakan percepatan pengembangan PLTS di Indonesia.',
+    img: '/uploads/content/Frame-319.png',
+    href: '/program/wku-1/',
+  },
+  {
+    title: 'WKU 2 - Riset dan Teknologi',
+    desc: 'Memperkuat ekosistem Pembangkit Listrik Tenaga Surya (PLTS) di Indonesia melalui riset dan pengembangan teknologi.',
+    img: '/uploads/content/Frame-319-1.png',
+    href: '/program/wku-2/',
+  },
+  {
+    title: 'WKU 3 - Kerja Sama Antar Lembaga',
+    desc: 'Menjembatani kerjasama strategis dengan berbagai pemangku kepentingan untuk menumbuhkan inovasi dan investasi di industri energi surya.',
+    img: '/uploads/content/Frame-319-2.png',
+    href: '/program/wku-3/',
+  },
+];
+
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title="Beranda">
+  <!-- HERO -->
+  <section class="relative bg-gradient-to-br from-primary-dark via-primary to-primary-light text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+    </div>
+    <div class="container-wide relative py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="eyebrow text-white/80 mb-4">Asosiasi Energi Surya Indonesia</p>
+        <h1 class="heading-1 text-white mb-6">
+          {site.tagline}
+        </h1>
+        <p class="text-lg lg:text-xl text-white/90 leading-relaxed mb-8 max-w-xl">
+          Forum komunikasi dan kerjasama antar pemegang kepentingan untuk percepatan pemanfaatan energi surya di Indonesia yang berkelanjutan.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/anggota/#gabung" class="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors">
+            Gabung Sekarang
+            <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+          </a>
+          <a href="/tentang-kami/" class="inline-flex items-center gap-2 px-6 py-3 rounded-md border-2 border-white/40 text-white hover:bg-white/10 transition-colors">
+            Tentang Kami
+          </a>
+        </div>
+      </div>
+      <div class="relative hidden lg:block">
+        <img
+          src="/uploads/content/Store-cover-Image-e1753072978811.jpg"
+          alt="Energi Surya Indonesia"
+          class="rounded-2xl shadow-2xl w-full"
+          width="600"
+          height="400"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- TENTANG SINGKAT -->
+  <section class="section bg-white">
+    <div class="container-wide grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="eyebrow mb-4">Tentang Kami</p>
+        <h2 class="heading-2 mb-6">Asosiasi Energi Surya Indonesia</h2>
+        <p class="text-lg text-ink-muted leading-relaxed mb-6">
+          Berdiri pada tanggal 15 Desember 2016, AESI berperan sebagai forum komunikasi dan kerjasama antar pemegang kepentingan, dalam upaya percepatan pemanfaatan energi surya di Indonesia untuk memenuhi kebutuhan energi berkelanjutan.
+        </p>
+        <a href="/tentang-kami/" class="btn-outline">
+          Lihat Selengkapnya
+          <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        {stats.map((s) => (
+          <div class="bg-surface-muted rounded-lg p-6 text-center">
+            <div class="text-3xl lg:text-4xl font-bold text-primary mb-2">{s.value}</div>
+            <div class="text-sm text-ink-muted">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM KERJA -->
+  <section class="section bg-surface-muted">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <p class="eyebrow mb-3">Program Kerja</p>
+        <h2 class="heading-2">Tiga Pilar WKU AESI</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        {programs.map((p) => (
+          <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+            <img
+              src={p.img}
+              alt={p.title}
+              class="w-full h-48 object-cover"
+              width="400"
+              height="200"
+              loading="lazy"
+            />
+            <div class="p-6">
+              <h3 class="heading-3 text-lg mb-3">{p.title}</h3>
+              <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.desc}</p>
+              <a href={p.href} class="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
+                Baca Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHT / BERITA -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <p class="eyebrow mb-3">External Insight</p>
+        <h2 class="heading-2">Berita &amp; Insight Terbaru</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        {artikel.map((a) => (
+          <a
+            href={`/artikel/${a.slug}/`}
+            class="group block bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-primary hover:shadow-lg transition-all"
+          >
+            {a.featured_image ? (
+              <img
+                src={a.featured_image.replace('https://aesi.or.id', '')}
+                alt={a.title}
+                class="w-full h-48 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                <span class="i-carbon-sun text-5xl text-primary" aria-hidden="true"></span>
+              </div>
+            )}
+            <div class="p-6">
+              <time class="text-xs text-ink-subtle uppercase tracking-wider" datetime={a.date}>
+                {dateFmt(a.date)}
+              </time>
+              <h3 class="font-semibold text-lg mt-2 mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                {a.title}
+              </h3>
+              <p class="text-sm text-ink-muted line-clamp-3">{a.excerpt}</p>
+              <span class="inline-flex items-center gap-2 text-sm text-primary mt-4 font-medium">
+                Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a href="/artikel/" class="btn-outline">
+          Lihat Semua Artikel
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM CTA -->
+  <section class="section bg-primary text-white">
+    <div class="container-wide grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-sm uppercase tracking-widest text-white/70 mb-4">Ikuti Perjalanan Energi Surya Indonesia</p>
+        <h2 class="heading-2 text-white mb-4">Dari Lapangan ke Layar Anda</h2>
+        <p class="text-lg text-white/90 leading-relaxed mb-6">
+          Update harian seputar pengembangan energi surya, liputan event, dan insight industri langsung di Instagram kami.
+        </p>
+        <a
+          href={contact.social.instagram}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-md bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors"
+        >
+          <span class="i-carbon-logo-instagram text-2xl" aria-hidden="true"></span>
+          @aesi_id
+        </a>
+      </div>
+      <div>
+        <img
+          src="/uploads/content/contoh-web-regis-01.jpg-scaled.jpeg"
+          alt="Instagram AESI"
+          class="rounded-2xl shadow-2xl w-full"
+          width="600"
+          height="400"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+</Base>

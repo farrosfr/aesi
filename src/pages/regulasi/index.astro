@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import wpData from '../../data/wp-content.json';
+
+const regulasi = wpData.regulasi.filter((r) => r.id !== 7058 && r.id !== 826);
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
+---
+
+<Base title="Regulasi">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Knowledge Hub</p>
+      <h1 class="heading-1 text-white mb-4">Regulasi</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Kumpulan peraturan dan regulasi terkait pengembangan energi surya di Indonesia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-wide max-w-4xl">
+      <div class="space-y-6">
+        {regulasi.map((r) => (
+          <article class="bg-surface-muted rounded-xl p-6 lg:p-8 hover:shadow-lg transition-shadow">
+            <time class="text-sm text-ink-subtle uppercase tracking-wider" datetime={r.modified}>
+              {dateFmt(r.modified)}
+            </time>
+            <h2 class="heading-3 text-xl mt-2 mb-3">{stripHtml(r.title)}</h2>
+            {r.content && (
+              <div class="text-ink-muted leading-relaxed prose prose-sm max-w-none">
+                <Fragment set:html={r.content.slice(0, 600) + (r.content.length > 600 ? '...' : '')} />
+              </div>
+            )}
+            <a href={`/regulasi/${r.slug}/`} class="inline-flex items-center gap-2 text-primary font-medium mt-4 hover:gap-3 transition-all">
+              Baca Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

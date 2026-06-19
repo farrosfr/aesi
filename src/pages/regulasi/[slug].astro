@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import wpData from '../../data/wp-content.json';
+
+export function getStaticPaths() {
+  return wpData.regulasi.map((r) => ({
+    params: { slug: r.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const reg = wpData.regulasi.find((r) => r.slug === slug);
+
+if (!reg) {
+  return Astro.redirect('/regulasi/');
+}
+
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
+---
+
+<Base title={reg.title} description={stripHtml(reg.title)}>
+  <section class="bg-white pt-12 pb-6 border-b border-gray-200">
+    <div class="container-narrow">
+      <nav class="text-sm text-ink-muted mb-4">
+        <a href="/" class="hover:text-primary">Beranda</a>
+        <span class="mx-2">/</span>
+        <a href="/regulasi/" class="hover:text-primary">Regulasi</a>
+      </nav>
+      <time class="text-sm text-ink-subtle" datetime={reg.modified}>{dateFmt(reg.modified)}</time>
+      <h1 class="heading-2 mt-2 mb-4">{stripHtml(reg.title)}</h1>
+    </div>
+  </section>
+
+  <article class="section bg-white">
+    <div class="container-narrow prose prose-lg max-w-none">
+      <Fragment set:html={reg.content} />
+    </div>
+  </article>
+
+  <section class="section bg-surface-muted">
+    <div class="container-narrow text-center">
+      <a href="/regulasi/" class="btn-outline">
+        <span class="i-carbon-arrow-left" aria-hidden="true"></span>
+        Kembali ke Daftar Regulasi
+      </a>
+    </div>
+  </section>
+</Base>

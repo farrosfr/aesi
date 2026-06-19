@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact } from '../data/site';
+---
+
+<Base title="Kontak Kami">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Hubungi Kami</p>
+      <h1 class="heading-1 text-white mb-4">Kantor AESI</h1>
+      <p class="text-lg text-white/90 leading-relaxed">
+        Kami terbuka untuk pertanyaan, kerjasama, dan diskusi terkait pengembangan energi surya di Indonesia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-wide grid lg:grid-cols-3 gap-8">
+      <div class="bg-surface-muted rounded-xl p-6 lg:p-8">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+          <span class="i-carbon-location text-2xl text-primary" aria-hidden="true"></span>
+        </div>
+        <h3 class="font-semibold text-lg mb-2">Alamat</h3>
+        <p class="text-sm text-ink-muted leading-relaxed mb-4">
+          {contact.address}
+        </p>
+        <a href={contact.mapsUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-primary font-medium text-sm hover:gap-3 transition-all">
+          Buka Google Maps <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="bg-surface-muted rounded-xl p-6 lg:p-8">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+          <span class="i-carbon-email text-2xl text-primary" aria-hidden="true"></span>
+        </div>
+        <h3 class="font-semibold text-lg mb-2">Email</h3>
+        <p class="text-sm text-ink-muted mb-2">Untuk pertanyaan keanggotaan dan umum:</p>
+        <a href={`mailto:${contact.email}`} class="text-primary font-medium hover:underline break-all">
+          {contact.email}
+        </a>
+      </div>
+
+      <div class="bg-surface-muted rounded-xl p-6 lg:p-8">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+          <span class="i-carbon-phone text-2xl text-primary" aria-hidden="true"></span>
+        </div>
+        <h3 class="font-semibold text-lg mb-2">Telepon</h3>
+        <p class="text-sm text-ink-muted mb-2">Hubungi sekretariat kami:</p>
+        <a href={`tel:${contact.phone}`} class="text-primary font-medium hover:underline">
+          {contact.phone}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-surface-muted">
+    <div class="container-narrow text-center">
+      <h2 class="heading-3 mb-6">Ikuti Kami di Media Sosial</h2>
+      <div class="flex justify-center gap-4">
+        <a
+          href={contact.social.instagram}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-md bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+        >
+          <span class="i-carbon-logo-instagram text-2xl text-primary" aria-hidden="true"></span>
+          <span class="font-medium">Instagram</span>
+        </a>
+        <a
+          href={contact.social.linkedin}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-md bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+        >
+          <span class="i-carbon-logo-linkedin text-2xl text-primary" aria-hidden="true"></span>
+          <span class="font-medium">LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

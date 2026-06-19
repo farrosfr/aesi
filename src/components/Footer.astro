@@ -1,0 +1,83 @@
+---
+import { site, contact, navigation } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-surface-dark text-white mt-20">
+  <div class="container-wide py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div>
+        <img
+          src="/uploads/static/AESI_Logo_White.png"
+          alt={site.name}
+          class="h-12 w-auto mb-4"
+          width="180"
+          height="48"
+        />
+        <p class="text-sm text-gray-300 leading-relaxed">
+          {site.fullName}
+        </p>
+        <p class="text-sm text-gray-400 mt-2">
+          Berdiri sejak {site.founded}
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-base mb-4">Alamat</h3>
+        <p class="text-sm text-gray-300 leading-relaxed">
+          {contact.address}
+        </p>
+        <a
+          href={contact.mapsUrl}
+          target="_blank"
+          rel="noopener"
+          class="inline-block mt-3 text-sm text-primary hover:underline"
+        >
+          Buka Google Maps &rarr;
+        </a>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-base mb-4">Informasi</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/tentang-kami/" class="text-gray-300 hover:text-primary">Tentang Kami</a></li>
+          <li><a href="/program/" class="text-gray-300 hover:text-primary">Program</a></li>
+          <li><a href="/anggota/" class="text-gray-300 hover:text-primary">Anggota</a></li>
+          <li><a href="/artikel/" class="text-gray-300 hover:text-primary">Knowledge Hub</a></li>
+          <li><a href="/kontak/" class="text-gray-300 hover:text-primary">Kontak Kami</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-base mb-4">Kontak Info</h3>
+        <ul class="space-y-2 text-sm">
+          <li class="text-gray-300">
+            <span class="text-gray-400">Keanggotaan:</span><br/>
+            <a href={`mailto:${contact.email}`} class="text-primary hover:underline">{contact.email}</a>
+          </li>
+          <li class="text-gray-300">
+            <span class="text-gray-400">Telepon:</span><br/>
+            <a href={`tel:${contact.phone}`} class="text-primary hover:underline">{contact.phone}</a>
+          </li>
+          <li class="pt-2">
+            <a href={contact.social.instagram} target="_blank" rel="noopener" class="inline-block text-gray-300 hover:text-primary mr-3" aria-label="Instagram">
+              <span class="i-carbon-logo-instagram text-xl align-middle" aria-hidden="true"></span>
+            </a>
+            <a href={contact.social.linkedin} target="_blank" rel="noopener" class="inline-block text-gray-300 hover:text-primary" aria-label="LinkedIn">
+              <span class="i-carbon-logo-linkedin text-xl align-middle" aria-hidden="true"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+      <p>&copy; Copyright {year} {site.name}. All Rights Reserved</p>
+      <p>
+        Dibangun dengan
+        <a href="https://astro.build" target="_blank" rel="noopener" class="text-primary hover:underline">Astro</a>
+      </p>
+    </div>
+  </div>
+</footer>

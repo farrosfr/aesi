@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+import wpData from '../../data/wp-content.json';
+
+export function getStaticPaths() {
+  return wpData.artikel.map((a) => ({
+    params: { slug: a.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const article = wpData.artikel.find((a) => a.slug === slug);
+
+if (!article) {
+  return Astro.redirect('/artikel/');
+}
+
+const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// Strip leading <p>, find first h1/h2 for hero text
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
+---
+
+<Base title={article.title} description={article.excerpt}>
+  <section class="bg-white pt-12 pb-6 border-b border-gray-200">
+    <div class="container-narrow">
+      <nav class="text-sm text-ink-muted mb-4">
+        <a href="/" class="hover:text-primary">Beranda</a>
+        <span class="mx-2">/</span>
+        <a href="/artikel/" class="hover:text-primary">Artikel</a>
+      </nav>
+      <time class="text-sm text-ink-subtle" datetime={article.date}>{dateFmt(article.date)}</time>
+      <h1 class="heading-2 mt-2 mb-4">{stripHtml(article.title)}</h1>
+      {article.author && (
+        <p class="text-sm text-ink-muted">Oleh: {article.author}</p>
+      )}
+    </div>
+  </section>
+
+  {article.featured_image && (
+    <div class="bg-white">
+      <div class="container-narrow">
+        <img
+          src={article.featured_image.replace('https://aesi.or.id', '')}
+          alt={stripHtml(article.title)}
+          class="w-full rounded-xl aspect-video object-cover"
+          loading="eager"
+        />
+      </div>
+    </div>
+  )}
+
+  <article class="section bg-white">
+    <div class="container-narrow prose prose-lg max-w-none">
+      <Fragment set:html={article.content} />
+    </div>
+  </article>
+
+  <section class="section bg-surface-muted">
+    <div class="container-narrow text-center">
+      <a href="/artikel/" class="btn-outline">
+        <span class="i-carbon-arrow-left" aria-hidden="true"></span>
+        Kembali ke Daftar Artikel
+      </a>
+    </div>
+  </section>
+</Base>

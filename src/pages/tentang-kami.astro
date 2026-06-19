@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Tentang Kami">
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white section">
+    <div class="container-narrow text-center">
+      <p class="eyebrow text-white/80 mb-3">Tentang Kami</p>
+      <h1 class="heading-1 text-white mb-4">{site.fullName}</h1>
+      <p class="text-lg lg:text-xl text-white/90 leading-relaxed">{site.tagline}</p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-narrow prose prose-lg max-w-none">
+      <h2>Siapa Kami</h2>
+      <p>
+        Berdiri pada tanggal 15 Desember 2016, AESI merupakan organisasi nirlaba yang berperan sebagai forum komunikasi dan kerjasama antar pemegang kepentingan di bidang energi surya Indonesia.
+      </p>
+      <p>
+        Kami mempertemukan pemerintah, akademisi, pelaku industri, dan masyarakat sipil untuk bersama-sama mempercepat transisi energi bersih Indonesia melalui pengembangan Pembangkit Listrik Tenaga Surya (PLTS).
+      </p>
+
+      <h2>Misi Kami</h2>
+      <ul>
+        <li>Memfasilitasi dialog antara regulator, industri, dan pemangku kepentingan terkait</li>
+        <li>Mendorong kebijakan yang mendukung pengembangan energi surya</li>
+        <li>Mengembangkan riset dan teknologi PLTS</li>
+        <li>Membangun jejaring dan kemitraan strategis di tingkat nasional maupun internasional</li>
+        <li>Meningkatkan kapasitas sumber daya manusia di bidang energi surya</li>
+      </ul>
+
+      <h2>Pelajari Lebih Lanjut</h2>
+      <div class="grid sm:grid-cols-2 gap-4 not-prose">
+        <a href="/sejarah/" class="block p-6 bg-surface-muted rounded-lg hover:bg-primary hover:text-white transition-colors group">
+          <h3 class="font-semibold mb-2 group-hover:text-white">Sejarah &rarr;</h3>
+          <p class="text-sm opacity-75">Perjalanan AESI dari 2016 hingga hari ini.</p>
+        </a>
+        <a href="/visi-misi/" class="block p-6 bg-surface-muted rounded-lg hover:bg-primary hover:text-white transition-colors group">
+          <h3 class="font-semibold mb-2 group-hover:text-white">Visi &amp; Misi &rarr;</h3>
+          <p class="text-sm opacity-75">Arah dan tujuan organisasi.</p>
+        </a>
+        <a href="/struktur-organisasi/" class="block p-6 bg-surface-muted rounded-lg hover:bg-primary hover:text-white transition-colors group">
+          <h3 class="font-semibold mb-2 group-hover:text-white">Struktur Organisasi &rarr;</h3>
+          <p class="text-sm opacity-75">Tim yang menggerakkan AESI.</p>
+        </a>
+        <a href="/program/" class="block p-6 bg-surface-muted rounded-lg hover:bg-primary hover:text-white transition-colors group">
+          <h3 class="font-semibold mb-2 group-hover:text-white">Program Kerja &rarr;</h3>
+          <p class="text-sm opacity-75">Tiga pilar utama kegiatan kami.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
