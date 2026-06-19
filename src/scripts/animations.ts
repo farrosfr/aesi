@@ -4,15 +4,36 @@
  */
 
 // ----- InView (IntersectionObserver) -----
-const inView = new IntersectionObserver((entries) => {
-  for (const e of entries) {
-    if (e.isIntersecting) {
-      e.target.classList.add('in-view');
-      inView.unobserve(e.target);
+// Aggressive rootMargin + 0 threshold so that elements which are
+// already in the viewport at page load get the .in-view class
+// within the first frame, instead of waiting for a scroll. Also
+// fall back to a manual rect check after rAF so that anything the
+// observer misses (small viewports, lazy mounts) still animates in.
+const inView = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        inView.unobserve(e.target);
+      }
     }
-  }
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  },
+  { threshold: 0, rootMargin: '0px 0px 10% 0px' }
+);
 document.querySelectorAll('[data-in-view]').forEach((el) => inView.observe(el));
+
+// Fallback: anything currently intersecting the viewport gets
+// in-view immediately on the next animation frame.
+requestAnimationFrame(() => {
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  document.querySelectorAll('[data-in-view]:not(.in-view)').forEach((el) => {
+    const r = (el as HTMLElement).getBoundingClientRect();
+    if (r.top < vh && r.bottom > 0) {
+      el.classList.add('in-view');
+      inView.unobserve(el);
+    }
+  });
+});
 
 // ----- Count-up (for stats) -----
 const counters = document.querySelectorAll<HTMLElement>('[data-count]');

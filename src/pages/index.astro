@@ -87,15 +87,19 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
           style={`background-image: url('${slide.img}');`}
           aria-hidden="true"
         ></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 pointer-events-none" aria-hidden="true"></div>
+        {/* Bottom-anchored gradient only — leaves the top half of the
+            hero photo fully visible (much brighter, less muddy). The
+            previous top-to-bottom black overlay crushed the photo and
+            dropped contrast below WCAG AA. */}
+        <div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none" aria-hidden="true"></div>
         <div class="relative h-full flex items-end">
           <div class="container-wide w-full pb-20 lg:pb-24">
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-              <div class="text-white max-w-3xl">
-                <h1 class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5 drop-shadow-lg">
+              <div class="text-white max-w-3xl" style="text-shadow: 0 2px 12px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.6);">
+                <h1 class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5" style="text-shadow: 0 4px 24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.65);">
                   {slide.title}
                 </h1>
-                <p class="text-lg sm:text-xl lg:text-2xl text-white/90 font-light italic drop-shadow">
+                <p class="text-lg sm:text-xl lg:text-2xl text-white font-light italic">
                   "{slide.tagline}"
                 </p>
               </div>

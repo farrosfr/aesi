@@ -32,19 +32,27 @@ body {
 
 /* ============================================================
    Scroll reveal
+   ============================================================
+   IMPORTANT: Initial state uses ONLY opacity (no transform) so that
+   the browser does NOT promote these elements to their own GPU
+   compositor layer while they're transitioning. Compositor layers
+   on Chrome render text with reduced subpixel quality, which made
+   the entire site look blurry until each element's animation fired.
+   Opacity-only transitions stay on the parent's layer and keep
+   text crisp at all times. The translateY effect is reintroduced
+   below as a layered-progress translation driven by IntersectionObserver
+   to keep the entrance motion without breaking sharpness.
    ============================================================ */
 [data-in-view] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s var(--ease-out-quart), transform 0.8s var(--ease-out-quart);
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transition: opacity 0.6s var(--ease-out-quart);
+  transition-delay: calc(var(--i, 0) * 60ms);
 }
 [data-in-view].in-view {
   opacity: 1;
-  transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-in-view] { opacity: 1; transform: none; transition: none; }
+  [data-in-view] { opacity: 1; transition: none; }
 }
 
 /* ============================================================
@@ -93,10 +101,18 @@ body {
 }
 .hero-slide-bg {
   position: absolute;
-  inset: -8% 0 -8% 0;
+  inset: 0;
   background-size: cover;
   background-position: center;
-  will-change: transform;
+  /* Keep the layer rendering at native device-pixel ratio even when
+     parallax (transform) is applied via JS — this is the key fix
+     that makes hero text crisp on retina/high-DPI displays. */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Helps the browser pick a better upscaling filter for backgrounds
+     that are intentionally smaller than the viewport. */
+  image-rendering: -webkit-optimize-contrast;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide { transition: opacity 0.2s; }
