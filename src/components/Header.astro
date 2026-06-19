@@ -1,44 +1,128 @@
 ---
-import { navigation, site, contact } from '../data/site';
+import { navigation, site } from '../data/site';
 
+const { transparent = false } = Astro.props;
 const pathname = Astro.url.pathname;
-const isActive = (href?: string) => href === pathname || (href && href !== '/' && pathname.startsWith(href));
+const isActive = (href?: string) =>
+  href === pathname || (Boolean(href) && href !== '/' && pathname.startsWith(href));
 ---
 
-<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+<style>
+  /* Default = solid white nav */
+  #main-header {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+    color: #1a1a1a;
+  }
+  /* Transparent mode (on full-bleed hero pages) */
+  #main-header.transparent {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent;
+    color: #ffffff;
+  }
+  /* Scrolled past hero: revert to solid */
+  #main-header.scrolled {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+    color: #1a1a1a;
+  }
+  /* Logo visibility: default (solid) shows color, transparent shows white */
+  #main-header .logo-color { display: block; }
+  #main-header .logo-white { display: none; }
+  #main-header.transparent:not(.scrolled) .logo-color { display: none; }
+  #main-header.transparent:not(.scrolled) .logo-white { display: block; }
+  /* Nav link colors */
+  #main-header .nav-link { color: inherit; }
+  #main-header .nav-link:hover { color: #00992e; }
+  #main-header.transparent:not(.scrolled) .nav-link:hover { color: #ffffff; opacity: 0.85; }
+  #main-header.transparent:not(.scrolled) .nav-link.active { color: #ffffff; opacity: 1; font-weight: 600; }
+  /* Utility bar text */
+  #main-header .utility-text { color: inherit; }
+  #main-header.transparent:not(.scrolled) .utility-text { color: #ffffff; opacity: 0.9; }
+  /* Mobile menu */
+  #mobile-menu {
+    background: white;
+    color: #1a1a1a;
+  }
+  /* Dropdown arrow rotation */
+  .has-children > button[aria-expanded="true"] .chev {
+    transform: rotate(180deg);
+  }
+  .chev { transition: transform 0.2s; display: inline-block; }
+</style>
+
+<header
+  id="main-header"
+  class:list={[
+    'sticky top-0 z-40 w-full transition-colors duration-300',
+    transparent && 'transparent',
+  ]}
+  data-transparent={transparent ? 'true' : 'false'}
+>
+  {/* ROW 1: utility bar - language + small CTA + search */}
+  <div class="hidden lg:block border-b border-white/10">
+    <div class="container-wide flex items-center justify-end gap-6 py-2 text-xs">
+      <a href="/kontak/" class="utility-text link-underline">Hubungi Kami</a>
+      <span class="utility-text opacity-30">|</span>
+      <button class="utility-text bg-transparent border-0 cursor-pointer flex items-center gap-1.5 p-0 text-xs" type="button" aria-label="Ganti bahasa">
+        <span class="i-carbon-language text-sm" aria-hidden="true"></span>
+        <span>ID</span>
+        <span class="i-carbon-chevron-down text-xs opacity-70" aria-hidden="true"></span>
+      </button>
+      <a href="/anggota/#gabung" class="utility-text link-underline">Registrasi Anggota</a>
+    </div>
+  </div>
+
+  {/* ROW 2: main nav - logo + nav items + CTA */}
   <div class="container-wide flex items-center justify-between h-16 lg:h-20">
     <a href="/" class="flex items-center gap-3 shrink-0">
       <img
-        src="/uploads/static/Logo-AESI-1-1.png"
+        src="/uploads/static/AESI_Logo_White.png"
         alt={site.name}
-        class="h-10 lg:h-12 w-auto"
+        class="logo-white h-10 lg:h-12 w-auto"
         width="48"
         height="48"
       />
-      <span class="hidden sm:inline-block font-heading font-bold text-lg text-ink leading-tight">
+      <img
+        src="/uploads/static/Logo-AESI-1-1.png"
+        alt={site.name}
+        class="logo-color h-10 lg:h-12 w-auto"
+        width="48"
+        height="48"
+      />
+      <span class="hidden sm:inline-block font-heading font-bold text-base lg:text-lg leading-tight">
         {site.name}<br/>
-        <span class="text-xs font-normal text-ink-muted">{site.fullName}</span>
+        <span class="text-[10px] lg:text-xs font-normal opacity-80">{site.fullName}</span>
       </span>
     </a>
 
     <nav class="hidden lg:flex items-center gap-1" aria-label="Menu utama">
       {navigation.map((item) => (
-        <div class="relative group">
+        <div class="relative group has-children">
           {item.children ? (
             <>
               <button
-                class={`appearance-none bg-transparent border-0 cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
+                class="appearance-none bg-transparent border-0 cursor-pointer nav-link px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1"
                 aria-expanded="false"
                 type="button"
               >
                 {item.label}
-                <span class="i-carbon-chevron-down ml-1 align-middle" aria-hidden="true"></span>
+                <span class="i-carbon-chevron-down text-xs chev" aria-hidden="true"></span>
               </button>
-              <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 absolute top-full left-0 min-w-[16rem] bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all">
+              <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 absolute top-full left-0 min-w-[16rem] bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-200">
                 {item.children.map((child) => (
                   <a
                     href={child.href}
-                    class={`block px-4 py-2 text-sm hover:bg-gray-50 ${isActive(child.href) ? 'text-primary font-medium' : 'text-ink'}`}
+                    class:list={[
+                      'block px-4 py-2 text-sm hover:bg-gray-50',
+                      isActive(child.href) ? 'text-primary font-medium' : 'text-ink',
+                    ]}
                   >
                     {child.label}
                   </a>
@@ -48,7 +132,10 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
           ) : (
             <a
               href={item.href}
-              class={`px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
+              class:list={[
+                'nav-link block px-3 py-2 text-sm font-medium transition-colors',
+                isActive(item.href) ? 'active' : '',
+              ]}
             >
               {item.label}
             </a>
@@ -57,27 +144,34 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
       ))}
     </nav>
 
-    <a href="/anggota/#gabung" class="hidden lg:inline-flex btn-primary text-sm">
-      Gabung Sekarang
+    <a
+      href="/anggota/#gabung"
+      class="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary-dark hover:gap-3 transition-all"
+    >
+      Gabung
     </a>
 
     <button
       id="mobile-menu-button"
-      class="lg:hidden p-2 rounded-md hover:bg-gray-100"
+      class="lg:hidden p-2 rounded-md hover:bg-white/10"
       aria-label="Buka menu"
       aria-expanded="false"
+      type="button"
     >
       <span class="i-carbon-menu block text-2xl" aria-hidden="true"></span>
     </button>
   </div>
 
-  <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200 bg-white">
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200">
     <nav class="container-wide py-4 flex flex-col gap-1" aria-label="Menu seluler">
       {navigation.map((item) => (
         <div class="border-b border-gray-100 last:border-b-0 py-2">
           <a
             href={item.href}
-            class={`block px-3 py-2 font-medium ${isActive(item.href) ? 'text-primary' : 'text-ink'}`}
+            class:list={[
+              'block px-3 py-2 font-medium',
+              isActive(item.href) ? 'text-primary' : 'text-ink',
+            ]}
           >
             {item.label}
           </a>
@@ -86,7 +180,10 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
               {item.children.map((child) => (
                 <a
                   href={child.href}
-                  class={`block py-1 text-sm ${isActive(child.href) ? 'text-primary font-medium' : 'text-ink-muted'}`}
+                  class:list={[
+                    'block py-1 text-sm',
+                    isActive(child.href) ? 'text-primary font-medium' : 'text-ink-muted',
+                  ]}
                 >
                   {child.label}
                 </a>
@@ -95,7 +192,10 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
           )}
         </div>
       ))}
-      <a href="/anggota/#gabung" class="btn-primary mt-4 text-center">
+      <a
+        href="/anggota/#gabung"
+        class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary-dark transition-colors"
+      >
         Gabung Sekarang
       </a>
     </nav>
@@ -103,6 +203,21 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
 </header>
 
 <script>
+  const header = document.getElementById('main-header');
+  if (header) {
+    const isTransparent = header.dataset.transparent === 'true';
+    const checkScroll = () => {
+      if (!isTransparent) return;
+      if (window.scrollY > 80) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
+  }
+
   const btn = document.getElementById('mobile-menu-button');
   const menu = document.getElementById('mobile-menu');
   if (btn && menu) {

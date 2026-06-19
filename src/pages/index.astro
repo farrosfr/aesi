@@ -5,11 +5,12 @@ import { totalMembers } from '../data/members';
 import wpData from '../data/wp-content.json';
 
 const artikel = wpData.artikel.slice(0, 3);
+
 const stats = [
-  { label: 'Perusahaan dan Lembaga', value: `${totalMembers}+` },
-  { label: 'Kontribusi Energi (MW)', value: '500+' },
-  { label: 'Tahun Beroperasi', value: `${new Date().getFullYear() - 2016}` },
-  { label: 'Program Aktif', value: '3' },
+  { label: 'Perusahaan dan Lembaga', value: totalMembers, suffix: '+' },
+  { label: 'Kontribusi Energi (MW)', value: 500, suffix: '+' },
+  { label: 'Tahun Beroperasi', value: new Date().getFullYear() - 2016, suffix: '' },
+  { label: 'Program Aktif', value: 3, suffix: '' },
 ];
 
 const programs = [
@@ -33,128 +34,220 @@ const programs = [
   },
 ];
 
+const slides = [
+  {
+    title: 'Asosiasi Energi Surya Indonesia',
+    tagline: 'Bersama Memajukan Energi Surya di Indonesia',
+    img: '/uploads/content/Store-cover-Image-e1753072978811.jpg',
+    cta: { label: 'Gabung Sekarang', href: '/anggota/#gabung' },
+  },
+  {
+    title: 'Forum Kolaborasi Industri',
+    tagline: '100+ perusahaan dan lembaga anggota yang menggerakkan akselerasi energi surya nasional',
+    img: '/uploads/content/Frame-319.png',
+    cta: { label: 'Lihat Anggota', href: '/anggota/' },
+  },
+  {
+    title: 'Tiga Pilar Program WKU',
+    tagline: 'Kebijakan, Riset dan Teknologi, serta Kerjasama Antar Lembaga untuk industri surya',
+    img: '/uploads/content/a1.png',
+    cta: { label: 'Program Kami', href: '/program/' },
+  },
+  {
+    title: 'Indonesia Juara Energi Surya',
+    tagline: 'Wujudkan transisi energi berkelanjutan bersama AESI',
+    img: '/uploads/content/contoh-web-regis-01.jpg-scaled.jpeg',
+    cta: { label: 'Kontak Kami', href: '/kontak/' },
+  },
+];
+
 const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
-<Base title="Beranda">
-  <!-- HERO -->
-  <section class="relative bg-gradient-to-br from-primary-dark via-primary to-primary-light text-white overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-      <div class="absolute bottom-10 right-10 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
-    </div>
-    <div class="container-wide relative py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
-      <div>
-        <p class="eyebrow text-white/80 mb-4">Asosiasi Energi Surya Indonesia</p>
-        <h1 class="heading-1 text-white mb-6">
-          {site.tagline}
-        </h1>
-        <p class="text-lg lg:text-xl text-white/90 leading-relaxed mb-8 max-w-xl">
-          Forum komunikasi dan kerjasama antar pemegang kepentingan untuk percepatan pemanfaatan energi surya di Indonesia yang berkelanjutan.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="/anggota/#gabung" class="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors">
-            Gabung Sekarang
-            <span class="i-carbon-arrow-right" aria-hidden="true"></span>
-          </a>
-          <a href="/tentang-kami/" class="inline-flex items-center gap-2 px-6 py-3 rounded-md border-2 border-white/40 text-white hover:bg-white/10 transition-colors">
-            Tentang Kami
-          </a>
+<Base title="Beranda" transparentHeader={true}>
+
+  {/* ===== HERO CAROUSEL ===== */}
+  <section
+    data-carousel
+    class="relative w-full h-[100svh] min-h-[600px] max-h-[900px] bg-black -mt-16 lg:-mt-20 overflow-hidden"
+    aria-roledescription="carousel"
+    aria-label="Hero"
+  >
+    {slides.map((slide, idx) => (
+      <div
+        data-slide
+        class:list={['hero-slide', idx === 0 && 'active']}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${idx + 1} of ${slides.length}`}
+      >
+        <div
+          data-parallax="0.25"
+          class="hero-slide-bg"
+          style={`background-image: url('${slide.img}');`}
+          aria-hidden="true"
+        ></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" aria-hidden="true"></div>
+        <div class="relative h-full flex items-end">
+          <div class="container-wide w-full pb-20 lg:pb-24">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+              <div class="text-white max-w-3xl">
+                <h1 class="font-heading font-extrabold uppercase tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-5 drop-shadow-lg">
+                  {slide.title}
+                </h1>
+                <p class="text-lg sm:text-xl lg:text-2xl text-white/90 font-light italic drop-shadow">
+                  "{slide.tagline}"
+                </p>
+              </div>
+              <div class="shrink-0">
+                <a
+                  href={slide.cta.href}
+                  class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-white font-semibold text-base hover:bg-primary-dark hover:gap-3 transition-all shadow-lg"
+                >
+                  {slide.cta.label}
+                  <span class="i-carbon-arrow-right text-lg" aria-hidden="true"></span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="relative hidden lg:block">
-        <img
-          src="/uploads/content/Store-cover-Image-e1753072978811.jpg"
-          alt="Energi Surya Indonesia"
-          class="rounded-2xl shadow-2xl w-full"
-          width="600"
-          height="400"
-        />
-      </div>
+    ))}
+
+    {/* Arrows */}
+    <button data-prev class="carousel-arrow prev" type="button" aria-label="Slide sebelumnya">
+      <span class="i-carbon-chevron-left text-2xl" aria-hidden="true"></span>
+    </button>
+    <button data-next class="carousel-arrow next" type="button" aria-label="Slide berikutnya">
+      <span class="i-carbon-chevron-right text-2xl" aria-hidden="true"></span>
+    </button>
+
+    {/* Dots */}
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2">
+      {slides.map((_, idx) => (
+        <button
+          data-dot
+          class:list={['carousel-dot', idx === 0 && 'active']}
+          type="button"
+          aria-label={`Slide ${idx + 1}`}
+        ></button>
+      ))}
+    </div>
+
+    {/* Scroll cue */}
+    <div class="hidden lg:flex absolute bottom-2 right-6 z-10 items-center gap-2 text-white/70 text-xs uppercase tracking-widest">
+      <span>Scroll</span>
+      <span class="i-carbon-arrow-down animate-bounce" aria-hidden="true"></span>
     </div>
   </section>
 
-  <!-- TENTANG SINGKAT -->
+  {/* ===== TENTANG SINGKAT + STATS ===== */}
   <section class="section bg-white">
-    <div class="container-wide grid lg:grid-cols-2 gap-12 items-center">
-      <div>
-        <p class="eyebrow mb-4">Tentang Kami</p>
-        <h2 class="heading-2 mb-6">Asosiasi Energi Surya Indonesia</h2>
-        <p class="text-lg text-ink-muted leading-relaxed mb-6">
-          Berdiri pada tanggal 15 Desember 2016, AESI berperan sebagai forum komunikasi dan kerjasama antar pemegang kepentingan, dalam upaya percepatan pemanfaatan energi surya di Indonesia untuk memenuhi kebutuhan energi berkelanjutan.
-        </p>
-        <a href="/tentang-kami/" class="btn-outline">
-          Lihat Selengkapnya
-          <span class="i-carbon-arrow-right" aria-hidden="true"></span>
-        </a>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        {stats.map((s) => (
-          <div class="bg-surface-muted rounded-lg p-6 text-center">
-            <div class="text-3xl lg:text-4xl font-bold text-primary mb-2">{s.value}</div>
-            <div class="text-sm text-ink-muted">{s.label}</div>
-          </div>
-        ))}
+    <div class="container-wide">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div data-in-view>
+          <p class="eyebrow mb-4">Tentang Kami</p>
+          <h2 class="heading-2 mb-6">Asosiasi Energi Surya Indonesia</h2>
+          <p class="text-lg text-ink-muted leading-relaxed mb-6">
+            Berdiri pada tanggal 15 Desember 2016, AESI berperan sebagai forum komunikasi dan kerjasama antar pemegang kepentingan, dalam upaya percepatan pemanfaatan energi surya di Indonesia untuk memenuhi kebutuhan energi berkelanjutan.
+          </p>
+          <a href="/tentang-kami/" class="btn-outline">
+            Lihat Selengkapnya
+            <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4 lg:gap-5">
+          {stats.map((s, idx) => (
+            <div
+              data-in-view
+              style={`--i: ${idx}`}
+              class="bg-surface-muted rounded-xl p-6 lg:p-8 text-center hover:bg-primary hover:text-white transition-colors group"
+            >
+              <div
+                data-count={s.value}
+                data-suffix={s.suffix}
+                class="counter text-3xl lg:text-5xl font-bold text-primary mb-2 group-hover:text-white transition-colors"
+              >
+                {s.value}{s.suffix}
+              </div>
+              <div class="text-xs lg:text-sm text-ink-muted group-hover:text-white/90 transition-colors">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PROGRAM KERJA -->
+  {/* ===== PROGRAM KERJA ===== */}
   <section class="section bg-surface-muted">
     <div class="container-wide">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12" data-in-view>
         <p class="eyebrow mb-3">Program Kerja</p>
         <h2 class="heading-2">Tiga Pilar WKU AESI</h2>
+        <p class="text-ink-muted mt-4 max-w-2xl mx-auto">
+          Tiga kelompok kerja utama yang menjalankan program strategis untuk kemajuan industri energi surya Indonesia.
+        </p>
       </div>
       <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-        {programs.map((p) => (
-          <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-            <img
-              src={p.img}
-              alt={p.title}
-              class="w-full h-48 object-cover"
-              width="400"
-              height="200"
-              loading="lazy"
-            />
-            <div class="p-6">
-              <h3 class="heading-3 text-lg mb-3">{p.title}</h3>
-              <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.desc}</p>
-              <a href={p.href} class="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
-                Baca Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
-              </a>
+        {programs.map((p, idx) => (
+          <a
+            href={p.href}
+            data-in-view
+            style={`--i: ${idx}`}
+            class="card group block"
+          >
+            <div class="card-image-wrap aspect-[16/9] bg-gray-100">
+              <img
+                src={p.img}
+                alt={p.title}
+                class="card-image"
+                width="400"
+                height="225"
+                loading="lazy"
+              />
             </div>
-          </article>
+            <div class="p-6">
+              <h3 class="heading-3 text-lg mb-3 group-hover:text-primary transition-colors">{p.title}</h3>
+              <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-4">{p.desc}</p>
+              <span class="inline-flex items-center gap-2 text-sm text-primary font-medium group-hover:gap-3 transition-all">
+                Baca Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+              </span>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- INSIGHT / BERITA -->
+  {/* ===== INSIGHT / BERITA ===== */}
   <section class="section bg-white">
     <div class="container-wide">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12" data-in-view>
         <p class="eyebrow mb-3">External Insight</p>
         <h2 class="heading-2">Berita &amp; Insight Terbaru</h2>
       </div>
       <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-        {artikel.map((a) => (
+        {artikel.map((a, idx) => (
           <a
             href={`/artikel/${a.slug}/`}
-            class="group block bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-primary hover:shadow-lg transition-all"
+            data-in-view
+            style={`--i: ${idx}`}
+            class="card group block"
           >
-            {a.featured_image ? (
-              <img
-                src={a.featured_image.replace('https://aesi.or.id', '')}
-                alt={a.title}
-                class="w-full h-48 object-cover"
-                loading="lazy"
-              />
-            ) : (
-              <div class="w-full h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                <span class="i-carbon-sun text-5xl text-primary" aria-hidden="true"></span>
-              </div>
-            )}
+            <div class="card-image-wrap aspect-[16/10] bg-gray-100">
+              {a.featured_image ? (
+                <img
+                  src={a.featured_image}
+                  alt={a.title}
+                  class="card-image"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                  <span class="i-carbon-sun text-5xl text-primary" aria-hidden="true"></span>
+                </div>
+              )}
+            </div>
             <div class="p-6">
               <time class="text-xs text-ink-subtle uppercase tracking-wider" datetime={a.date}>
                 {dateFmt(a.date)}
@@ -163,14 +256,14 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
                 {a.title}
               </h3>
               <p class="text-sm text-ink-muted line-clamp-3">{a.excerpt}</p>
-              <span class="inline-flex items-center gap-2 text-sm text-primary mt-4 font-medium">
+              <span class="inline-flex items-center gap-2 text-sm text-primary mt-4 font-medium group-hover:gap-3 transition-all">
                 Selengkapnya <span class="i-carbon-arrow-right" aria-hidden="true"></span>
               </span>
             </div>
           </a>
         ))}
       </div>
-      <div class="text-center mt-10">
+      <div class="text-center mt-10" data-in-view>
         <a href="/artikel/" class="btn-outline">
           Lihat Semua Artikel
         </a>
@@ -178,10 +271,20 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
     </div>
   </section>
 
-  <!-- INSTAGRAM CTA -->
-  <section class="section bg-primary text-white">
-    <div class="container-wide grid lg:grid-cols-2 gap-12 items-center">
-      <div>
+  {/* ===== INSTAGRAM CTA ===== */}
+  <section class="section bg-primary text-white relative overflow-hidden">
+    <div
+      data-parallax="0.15"
+      class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-accent/30 blur-3xl"
+      aria-hidden="true"
+    ></div>
+    <div
+      data-parallax="0.1"
+      class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-white/10 blur-3xl"
+      aria-hidden="true"
+    ></div>
+    <div class="container-wide relative grid lg:grid-cols-2 gap-12 items-center">
+      <div data-in-view>
         <p class="text-sm uppercase tracking-widest text-white/70 mb-4">Ikuti Perjalanan Energi Surya Indonesia</p>
         <h2 class="heading-2 text-white mb-4">Dari Lapangan ke Layar Anda</h2>
         <p class="text-lg text-white/90 leading-relaxed mb-6">
@@ -191,15 +294,16 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
           href={contact.social.instagram}
           target="_blank"
           rel="noopener"
-          class="inline-flex items-center gap-3 px-6 py-3 rounded-md bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors"
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white text-primary font-semibold hover:bg-accent hover:text-white transition-colors"
         >
           <span class="i-carbon-logo-instagram text-2xl" aria-hidden="true"></span>
           @aesi_id
+          <span class="i-carbon-arrow-right" aria-hidden="true"></span>
         </a>
       </div>
-      <div>
+      <div data-in-view style="--i: 1">
         <img
-          src="/uploads/content/contoh-web-regis-01.jpg-scaled.jpeg"
+          src="/uploads/content/AESI-SYNKRONA-FOTO-1.png"
           alt="Instagram AESI"
           class="rounded-2xl shadow-2xl w-full"
           width="600"

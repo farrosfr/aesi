@@ -22,6 +22,9 @@ export const contact = {
   social: {
     instagram: 'https://instagram.com/aesi_id',
     linkedin: 'https://www.linkedin.com/company/aesi-indonesia/',
+    twitter: 'https://x.com/aesi_id',
+    facebook: 'https://facebook.com/aesi.id',
+    youtube: 'https://youtube.com/@aesi_id',
   },
 } as const;
 

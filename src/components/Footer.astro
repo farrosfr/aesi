@@ -1,83 +1,189 @@
 ---
-import { site, contact, navigation } from '../data/site';
+import { site, contact } from '../data/site';
 
 const year = new Date().getFullYear();
+
+const socials = [
+  { label: 'Instagram', href: contact.social.instagram, icon: 'i-carbon-logo-instagram' },
+  { label: 'LinkedIn', href: contact.social.linkedin, icon: 'i-carbon-logo-linkedin' },
+  { label: 'Facebook', href: contact.social.facebook, icon: 'i-carbon-logo-facebook' },
+  { label: 'X / Twitter', href: contact.social.twitter, icon: 'i-carbon-logo-x' },
+  { label: 'YouTube', href: contact.social.youtube, icon: 'i-carbon-logo-youtube' },
+].filter((s) => Boolean(s.href));
+
+const infoLinks = [
+  { label: 'Tentang Kami', href: '/tentang-kami/' },
+  { label: 'Sejarah', href: '/sejarah/' },
+  { label: 'Visi & Misi', href: '/visi-misi/' },
+  { label: 'Struktur Organisasi', href: '/struktur-organisasi/' },
+];
+
+const programLinks = [
+  { label: 'Program Kerja', href: '/program/' },
+  { label: 'WKU 1 - Kebijakan', href: '/program/wku-1/' },
+  { label: 'WKU 2 - Riset', href: '/program/wku-2/' },
+  { label: 'WKU 3 - Kerjasama', href: '/program/wku-3/' },
+];
+
+const hubLinks = [
+  { label: 'Knowledge Hub', href: '/artikel/' },
+  { label: 'Newsletter', href: '/newsletter/' },
+  { label: 'Regulasi', href: '/regulasi/' },
+  { label: 'Daftar Anggota', href: '/anggota/' },
+];
 ---
 
 <footer class="bg-surface-dark text-white mt-20">
-  <div class="container-wide py-12 lg:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+  {/* Newsletter signup bar */}
+  <div class="border-b border-white/10">
+    <div class="container-wide py-10 lg:py-12 grid lg:grid-cols-2 gap-6 items-center">
       <div>
-        <img
-          src="/uploads/static/AESI_Logo_White.png"
-          alt={site.name}
-          class="h-12 w-auto mb-4"
-          width="180"
-          height="48"
+        <h3 class="text-2xl lg:text-3xl font-bold leading-tight mb-2">Dapatkan Update Terbaru</h3>
+        <p class="text-sm lg:text-base text-gray-300">Insight industri, regulasi, dan berita energi surya langsung ke email Anda.</p>
+      </div>
+      <form
+        action={`mailto:${contact.email}`}
+        method="post"
+        enctype="text/plain"
+        class="flex flex-col sm:flex-row gap-3"
+        aria-label="Newsletter sign-up"
+      >
+        <label class="sr-only" for="footer-email">Email</label>
+        <input
+          id="footer-email"
+          type="email"
+          name="email"
+          required
+          placeholder="nama@email.com"
+          class="flex-1 px-5 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:bg-white/15 focus:border-white/40 outline-none"
         />
-        <p class="text-sm text-gray-300 leading-relaxed">
-          {site.fullName}
+        <button
+          type="submit"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-semibold hover:bg-primary-dark transition-colors whitespace-nowrap"
+        >
+          Berlangganan
+          <span class="i-carbon-arrow-right" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {/* Main 4-col footer */}
+  <div class="container-wide py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+      {/* Col 1: Brand */}
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <img
+            src="/uploads/static/AESI_Logo_White.png"
+            alt={site.name}
+            class="h-12 w-auto"
+            width="180"
+            height="48"
+          />
+          <div>
+            <div class="font-heading font-bold text-base leading-tight">{site.name}</div>
+            <div class="text-xs text-gray-400 leading-tight">{site.fullName}</div>
+          </div>
+        </div>
+        <p class="text-sm text-gray-300 leading-relaxed mb-4">
+          Forum komunikasi dan kerjasama antar pemegang kepentingan untuk percepatan pemanfaatan energi surya di Indonesia.
         </p>
-        <p class="text-sm text-gray-400 mt-2">
-          Berdiri sejak {site.founded}
-        </p>
+        <p class="text-xs text-gray-500">Berdiri sejak {site.founded}</p>
       </div>
 
+      {/* Col 2: Address */}
       <div>
-        <h3 class="font-semibold text-base mb-4">Alamat</h3>
-        <p class="text-sm text-gray-300 leading-relaxed">
+        <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-5">Kantor Sekretariat</h3>
+        <address class="not-italic text-sm text-gray-300 leading-relaxed mb-4">
           {contact.address}
-        </p>
+        </address>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start gap-2">
+            <span class="i-carbon-email text-base text-primary shrink-0 mt-0.5" aria-hidden="true"></span>
+            <a href={`mailto:${contact.email}`} class="link-underline text-gray-300 hover:text-white">{contact.email}</a>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="i-carbon-phone text-base text-primary shrink-0 mt-0.5" aria-hidden="true"></span>
+            <a href={`tel:${contact.phone}`} class="link-underline text-gray-300 hover:text-white">{contact.phone}</a>
+          </li>
+        </ul>
         <a
           href={contact.mapsUrl}
           target="_blank"
           rel="noopener"
-          class="inline-block mt-3 text-sm text-primary hover:underline"
+          class="inline-flex items-center gap-1.5 mt-4 text-sm text-primary hover:underline"
         >
-          Buka Google Maps &rarr;
+          <span class="i-carbon-location" aria-hidden="true"></span>
+          Buka Google Maps
         </a>
       </div>
 
+      {/* Col 3: Quick links (3 mini groups) */}
       <div>
-        <h3 class="font-semibold text-base mb-4">Informasi</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/tentang-kami/" class="text-gray-300 hover:text-primary">Tentang Kami</a></li>
-          <li><a href="/program/" class="text-gray-300 hover:text-primary">Program</a></li>
-          <li><a href="/anggota/" class="text-gray-300 hover:text-primary">Anggota</a></li>
-          <li><a href="/artikel/" class="text-gray-300 hover:text-primary">Knowledge Hub</a></li>
-          <li><a href="/kontak/" class="text-gray-300 hover:text-primary">Kontak Kami</a></li>
-        </ul>
+        <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-5">Jelajahi</h3>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-6 text-sm">
+          <div>
+            <h4 class="font-semibold text-white mb-2">Tentang</h4>
+            <ul class="space-y-1.5">
+              {infoLinks.map((l) => (
+                <li><a href={l.href} class="text-gray-300 hover:text-primary link-underline">{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white mb-2">Program</h4>
+            <ul class="space-y-1.5">
+              {programLinks.map((l) => (
+                <li><a href={l.href} class="text-gray-300 hover:text-primary link-underline">{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div class="col-span-2">
+            <h4 class="font-semibold text-white mb-2">Knowledge Hub</h4>
+            <ul class="space-y-1.5">
+              {hubLinks.map((l) => (
+                <li><a href={l.href} class="text-gray-300 hover:text-primary link-underline">{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
 
+      {/* Col 4: Connect (social) */}
       <div>
-        <h3 class="font-semibold text-base mb-4">Kontak Info</h3>
-        <ul class="space-y-2 text-sm">
-          <li class="text-gray-300">
-            <span class="text-gray-400">Keanggotaan:</span><br/>
-            <a href={`mailto:${contact.email}`} class="text-primary hover:underline">{contact.email}</a>
-          </li>
-          <li class="text-gray-300">
-            <span class="text-gray-400">Telepon:</span><br/>
-            <a href={`tel:${contact.phone}`} class="text-primary hover:underline">{contact.phone}</a>
-          </li>
-          <li class="pt-2">
-            <a href={contact.social.instagram} target="_blank" rel="noopener" class="inline-block text-gray-300 hover:text-primary mr-3" aria-label="Instagram">
-              <span class="i-carbon-logo-instagram text-xl align-middle" aria-hidden="true"></span>
+        <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-5">Terhubung</h3>
+        <p class="text-sm text-gray-300 leading-relaxed mb-5">
+          Ikuti kami di media sosial untuk update harian seputar industri energi surya Indonesia.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {socials.map((s) => (
+            <a
+              href={s.href}
+              target="_blank"
+              rel="noopener"
+              aria-label={s.label}
+              class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-white/10 border border-white/15 text-white hover:bg-primary hover:border-primary transition-colors"
+            >
+              <span class:list={[s.icon, 'text-lg']} aria-hidden="true"></span>
             </a>
-            <a href={contact.social.linkedin} target="_blank" rel="noopener" class="inline-block text-gray-300 hover:text-primary" aria-label="LinkedIn">
-              <span class="i-carbon-logo-linkedin text-xl align-middle" aria-hidden="true"></span>
-            </a>
-          </li>
-        </ul>
+          ))}
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-      <p>&copy; Copyright {year} {site.name}. All Rights Reserved</p>
-      <p>
-        Dibangun dengan
-        <a href="https://astro.build" target="_blank" rel="noopener" class="text-primary hover:underline">Astro</a>
-      </p>
+  {/* Bottom bar: copyright + privacy + credits */}
+  <div class="border-t border-white/10">
+    <div class="container-wide py-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+      <p>&copy; {year} {site.fullName}. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="/kebijakan-privasi/" class="hover:text-white link-underline">Kebijakan Privasi</a>
+        <span class="opacity-30">|</span>
+        <a href="/syarat-ketentuan/" class="hover:text-white link-underline">Syarat &amp; Ketentuan</a>
+        <span class="opacity-30">|</span>
+        <a href="https://astro.build" target="_blank" rel="noopener" class="hover:text-white link-underline">Built with Astro</a>
+      </div>
     </div>
   </div>
 </footer>
