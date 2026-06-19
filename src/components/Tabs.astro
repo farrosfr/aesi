@@ -1,0 +1,56 @@
+---
+/**
+ * Tabs component: switchable content panels.
+ * Triggers use [data-tab-target], panels use [data-tab-panel].
+ *
+ * Usage:
+ *   <Tabs tabs={[
+ *     { id: 'wku1', label: 'WKU 1', content: '<p>...</p>' },
+ *     { id: 'wku2', label: 'WKU 2', content: '<p>...</p>' },
+ *   ]} defaultTab="wku1" />
+ */
+interface Tab {
+  id: string;
+  label: string;
+  content: string;
+  icon?: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  defaultTab?: string;
+}
+
+const { tabs, defaultTab } = Astro.props;
+const initial = defaultTab ?? tabs[0]?.id;
+---
+
+<div data-tabs class="tabs-component">
+  <div role="tablist" class="tabs-list" aria-label="Tabs">
+    {tabs.map((t) => (
+      <button
+        role="tab"
+        type="button"
+        data-tab-target={t.id}
+        aria-selected={t.id === initial}
+        class:list={[
+          'tabs-trigger',
+          t.id === initial && 'border-primary text-primary',
+          t.id !== initial && 'border-transparent text-ink-muted',
+        ]}
+      >
+        {t.icon && <span class:list={[t.icon, 'tabs-icon']} aria-hidden="true"></span>}
+        <span>{t.label}</span>
+      </button>
+    ))}
+  </div>
+  {tabs.map((t) => (
+    <div
+      role="tabpanel"
+      data-tab-panel={t.id}
+      hidden={t.id !== initial}
+      class="tabs-panel"
+      set:html={t.content}
+    />
+  ))}
+</div>

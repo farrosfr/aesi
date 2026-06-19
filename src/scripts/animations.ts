@@ -136,6 +136,102 @@ if (searchModal) {
   document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); open(); }));
   document.querySelectorAll('[data-search-close], [data-search-backdrop]').forEach((b) => b.addEventListener('click', close));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) close(); });
+
+  // Search index + filter
+  let searchIndex: Array<{ title: string; url: string; type: string; excerpt?: string }> = [];
+  let searchLoaded = false;
+  let activeIdx = 0;
+  let matches: typeof searchIndex = [];
+
+  const escapeHtml = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+  const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  const typeIcons: Record<string, string> = {
+    halaman: 'i-carbon-link',
+    artikel: 'i-carbon-document',
+    regulasi: 'i-carbon-document-blank',
+    program: 'i-carbon-tree-view',
+  };
+
+  const resultsEl = document.getElementById('search-results');
+  const inputEl = searchModal.querySelector<HTMLInputElement>('[data-search-input]');
+
+  async function loadIndex() {
+    if (searchLoaded) return;
+    try {
+      const res = await fetch('/search-index.json');
+      searchIndex = await res.json();
+      searchLoaded = true;
+    } catch (e) {
+      console.error('Search index load failed', e);
+    }
+  }
+
+  function render(query: string) {
+    if (!resultsEl) return;
+    if (!query.trim()) {
+      resultsEl.innerHTML = '<p class="search-hint">Ketik untuk mencari...</p>';
+      matches = [];
+      return;
+    }
+    const q = query.toLowerCase();
+    matches = searchIndex
+      .filter((i) => i.title.toLowerCase().includes(q) || (i.excerpt && i.excerpt.toLowerCase().includes(q)))
+      .slice(0, 10);
+    activeIdx = 0;
+    if (matches.length === 0) {
+      resultsEl.innerHTML = `<p class="search-hint">Tidak ada hasil untuk &quot;${escapeHtml(query)}&quot;</p>`;
+      return;
+    }
+    const re = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    resultsEl.innerHTML = matches
+      .map(
+        (m, i) => `
+        <a href="${m.url}" class="search-result ${i === 0 ? 'active' : ''}" data-result-idx="${i}">
+          <div class="search-result-icon"><span class="${typeIcons[m.type] || 'i-carbon-link'}"></span></div>
+          <div class="search-result-content">
+            <p class="search-result-title">${escapeHtml(m.title).replace(re, '<mark>$1</mark>')}</p>
+            <span class="search-result-type">${m.type}</span>
+            ${m.excerpt ? `<p class="search-result-excerpt">${escapeHtml(m.excerpt).replace(re, '<mark>$1</mark>')}</p>` : ''}
+          </div>
+        </a>`
+      )
+      .join('');
+  }
+
+  inputEl?.addEventListener('input', (e) => render((e.target as HTMLInputElement).value));
+  document.addEventListener('keydown', (e) => {
+    if (searchModal.classList.contains('hidden') || matches.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(matches.length - 1, activeIdx + 1);
+      updateActive();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(0, activeIdx - 1);
+      updateActive();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (matches[activeIdx]) window.location.href = matches[activeIdx].url;
+    }
+  });
+  function updateActive() {
+    if (!resultsEl) return;
+    resultsEl.querySelectorAll<HTMLElement>('.search-result').forEach((el, i) => {
+      el.classList.toggle('active', i === activeIdx);
+      if (i === activeIdx) el.scrollIntoView({ block: 'nearest' });
+    });
+  }
+
+  // Cmd/Ctrl+K to open
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      open();
+      loadIndex();
+    }
+  });
 }
 
 // ----- Language switcher trigger -----
@@ -211,6 +307,19 @@ if (backToTop) {
   backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   onScrollBtt();
 }
+
+// ----- WhatsApp widget (scroll-revealed) -----
+document.querySelectorAll<HTMLElement>('[data-wa-widget]').forEach((el) => {
+  const showAt = Number(el.dataset.showAt || 400);
+  const onScroll = () => {
+    const show = window.scrollY > showAt;
+    el.classList.toggle('opacity-0', !show);
+    el.classList.toggle('pointer-events-none', !show);
+    el.classList.toggle('opacity-100', show);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+});
 
 // ----- Tabs -----
 document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((tabsRoot) => {

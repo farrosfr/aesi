@@ -1,25 +1,18 @@
 ---
-/**
- * Floating WhatsApp widget, bottom-right. Pure link, no JS needed.
- * Phone number is read from site.contact.whatsapp.
- */
 import { contact } from '../data/site';
-
-const phone = (contact as any).whatsapp ?? '+62 81234567890';
-const message = encodeURIComponent('Halo AESI, saya ingin bertanya tentang...');
-const href = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${message}`;
+const waNumber = contact.phone.replace(/[^0-9]/g, '');
+const waText = encodeURIComponent('Halo AESI, saya ingin bertanya tentang keanggotaan.');
 ---
 
 <a
-  href={href}
+  href={`https://wa.me/${waNumber}?text=${waText}`}
   target="_blank"
   rel="noopener"
-  aria-label="Chat WhatsApp dengan AESI"
-  class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center group"
+  data-wa-widget
+  data-show-at="400"
+  class="wa-widget opacity-0 pointer-events-none"
+  aria-label="Hubungi kami via WhatsApp"
 >
   <span class="i-carbon-logo-whatsapp text-3xl" aria-hidden="true"></span>
-  <span class="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-ink text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-    Chat dengan kami
-  </span>
-  <span class="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping" aria-hidden="true"></span>
+  <span class="wa-pulse" aria-hidden="true"></span>
 </a>

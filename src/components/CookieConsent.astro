@@ -1,34 +1,33 @@
 ---
 /**
- * Dismissable cookie consent banner, fixed bottom. Uses localStorage to
- * remember user choice. Defaults to shown on first visit.
+ * Cookie consent banner: shown on first visit (localStorage check),
+ * dismissable. Saves preference to localStorage.
+ * The JS expects: data-cookie-consent on outer, data-cookie-accept and
+ * data-cookie-reject on buttons. The inner panel is the slide-up element.
  */
 ---
 
 <div
   data-cookie-consent
+  class="cookie-banner-wrap"
   role="dialog"
-  aria-label="Pemberitahuan cookie"
-  class="fixed bottom-0 inset-x-0 z-50 p-4 pointer-events-none"
+  aria-label="Pemberitahuan cookies"
 >
-  <div class="container-wide">
-    <div class="bg-white rounded-2xl shadow-2xl border border-surface p-5 lg:p-6 flex flex-col lg:flex-row lg:items-center gap-4 max-w-4xl mx-auto translate-y-full opacity-0 transition-all duration-500 pointer-events-auto">
-      <span class="i-carbon-cookie text-3xl text-accent shrink-0" aria-hidden="true"></span>
-      <p class="text-sm text-ink-muted flex-1">
-        Kami menggunakan cookie untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui
-        <a href="/kebijakan-privasi" class="text-primary hover:underline">Kebijakan Privasi</a> kami.
+  <div class="cookie-banner-inner translate-y-full opacity-0 transition-all duration-500">
+    <div class="cookie-content">
+      <div class="cookie-icon shrink-0">
+        <span class="i-carbon-cookie text-2xl text-primary" aria-hidden="true"></span>
+      </div>
+      <p class="cookie-text">
+        Kami menggunakan cookies untuk meningkatkan pengalaman Anda di situs ini. Dengan melanjutkan, Anda menyetujui penggunaan cookies sesuai kebijakan privasi kami.
       </p>
-      <div class="flex gap-2 shrink-0">
-        <button
-          type="button"
-          data-cookie-reject
-          class="h-10 px-4 rounded-xl text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface transition-colors"
-        >Tolak</button>
-        <button
-          type="button"
-          data-cookie-accept
-          class="h-10 px-5 rounded-xl text-sm font-medium bg-primary text-white hover:bg-primary-dark transition-colors"
-        >Terima</button>
+      <div class="cookie-actions">
+        <button data-cookie-reject type="button" class="cookie-btn-secondary">
+          Tolak
+        </button>
+        <button data-cookie-accept type="button" class="cookie-btn-primary">
+          Saya Setuju
+        </button>
       </div>
     </div>
   </div>

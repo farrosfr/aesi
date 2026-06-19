@@ -1,65 +1,44 @@
 ---
 /**
- * Fullscreen search modal. Triggered by data-search-trigger buttons in the
- * header. Closes on ESC, backdrop click, or X button.
+ * Search modal: fullscreen overlay with input + filtered results.
+ * Triggered by [data-search-trigger] buttons (e.g. in Header).
+ * Closed by clicking backdrop, ESC key, or [data-search-close].
+ * Loads /search-index.json (built from src/data/search-index.ts).
  */
 ---
 
 <div
   data-search-modal
-  aria-hidden="true"
+  class="search-modal hidden"
   role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
   aria-label="Pencarian"
-  class="fixed inset-0 z-[60] hidden"
 >
-  <div data-search-backdrop class="absolute inset-0 bg-ink/80 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
-  <div data-search-panel class="relative h-full flex items-start justify-center pt-24 px-4 transition-all duration-300 opacity-0 -translate-y-4">
-    <div class="w-full max-w-2xl">
-      <form data-search-form action="/search" method="get" class="relative">
-        <span class="i-carbon-search absolute left-5 top-1/2 -translate-y-1/2 text-2xl text-primary" aria-hidden="true"></span>
-        <input
-          type="search"
-          name="q"
-          data-search-input
-          placeholder="Cari artikel, program, anggota..."
-          class="w-full h-16 pl-16 pr-32 text-lg rounded-2xl bg-white text-ink placeholder:text-ink-muted shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/30"
-          autocomplete="off"
-        />
-        <button
-          type="button"
-          data-search-close
-          class="absolute right-4 top-1/2 -translate-y-1/2 h-10 px-4 rounded-xl text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface transition-colors"
-        >ESC</button>
-      </form>
-      <div class="mt-6 bg-white rounded-2xl p-6 shadow-2xl">
-        <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-3">Tautan Cepat</p>
-        <div class="grid sm:grid-cols-2 gap-2">
-          <a href="/tentang-kami/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-information text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Tentang AESI</span>
-          </a>
-          <a href="/program/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-cube text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Program WKU 1/2/3</span>
-          </a>
-          <a href="/anggota/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-user-multiple text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Daftar 100+ Anggota</span>
-          </a>
-          <a href="/regulasi/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-document text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Regulasi & Kebijakan</span>
-          </a>
-          <a href="/kontak/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-email text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Hubungi Kami</span>
-          </a>
-          <a href="/newsletter/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface transition-colors">
-            <span class="i-carbon-send text-xl text-primary" aria-hidden="true"></span>
-            <span class="text-sm">Berlangganan Newsletter</span>
-          </a>
-        </div>
-      </div>
+  <button data-search-backdrop class="search-backdrop" aria-label="Tutup pencarian" type="button"></button>
+  <div data-search-panel class="search-panel" role="document">
+    <div class="search-input-wrap">
+      <span class="i-carbon-search text-2xl text-ink-muted" aria-hidden="true"></span>
+      <input
+        data-search-input
+        type="search"
+        placeholder="Cari artikel, halaman, program..."
+        autocomplete="off"
+        aria-label="Cari"
+        class="flex-1 bg-transparent border-0 outline-none text-base py-2 text-ink placeholder-ink-subtle"
+      />
+      <kbd class="search-kbd">ESC</kbd>
     </div>
+    <div id="search-results" class="search-results" aria-live="polite">
+      <p class="search-hint">Ketik untuk mencari...</p>
+    </div>
+    <div class="search-footer">
+      <span><kbd class="search-kbd">&uarr;</kbd> <kbd class="search-kbd">&darr;</kbd> navigasi</span>
+      <span><kbd class="search-kbd">&crarr;</kbd> buka</span>
+      <span><kbd class="search-kbd">ESC</kbd> tutup</span>
+    </div>
+    <button data-search-close class="search-close" aria-label="Tutup" type="button">
+      <span class="i-carbon-close text-xl" aria-hidden="true"></span>
+    </button>
   </div>
 </div>
