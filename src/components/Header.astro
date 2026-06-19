@@ -27,8 +27,9 @@ const isActive = (href?: string) => href === pathname || (href && href !== '/' &
           {item.children ? (
             <>
               <button
-                class={`px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
+                class={`appearance-none bg-transparent border-0 cursor-pointer px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary' : 'text-ink hover:text-primary'}`}
                 aria-expanded="false"
+                type="button"
               >
                 {item.label}
                 <span class="i-carbon-chevron-down ml-1 align-middle" aria-hidden="true"></span>
