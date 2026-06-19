@@ -10,7 +10,9 @@ export const site = {
     'Asosiasi Energi Surya Indonesia (AESI) - forum komunikasi dan kerjasama antar pemegang kepentingan untuk percepatan pemanfaatan energi surya di Indonesia.',
   founded: '15 Desember 2016',
   url: 'https://new.aesi.or.id',
-  ogImage: '/og.png',
+  // Default social-share image. Per-page og:image comes from
+  // each page's featured_image via the Base layout prop.
+  ogImage: '/uploads/static/Logo-AESI-1-1.png',
 } as const;
 
 export const contact = {

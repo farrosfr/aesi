@@ -21,7 +21,12 @@ const dateFmt = (d: string) => new Date(d).toLocaleDateString('id-ID', { day: 'n
 const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
 ---
 
-<Base title={article.title} description={article.excerpt}>
+<Base
+  title={article.title}
+  description={article.excerpt}
+  ogImage={article.featured_image}
+  articlePublishedTime={article.date}
+>
   <section class="bg-white pt-12 pb-6 border-b border-gray-200">
     <div class="container-narrow">
       <nav class="text-sm text-ink-muted mb-4">
@@ -41,10 +46,12 @@ const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '').trim();
     <div class="bg-white">
       <div class="container-narrow">
         <img
-          src={article.featured_image.replace('https://aesi.or.id', '')}
+          src={article.featured_image}
           alt={stripHtml(article.title)}
           class="w-full rounded-xl aspect-video object-cover"
           loading="eager"
+          width="1280"
+          height="720"
         />
       </div>
     </div>

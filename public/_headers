@@ -1,0 +1,60 @@
+# Cloudflare Pages headers file
+# https://developers.cloudflare.com/pages/configuration/headers/
+#
+# Security baseline for new.aesi.or.id. Tuned to be safe by default
+# while not breaking legitimate use of the site (search engines, social
+# embedders, the WhatsApp widget, Cloudflare Insights, etc.).
+
+# --- Whole-site baseline -------------------------------------------------
+/*
+  # HSTS: 1 year + subdomains + preload-eligible.
+  # After ~60 days of clean operation, submit to https://hstspreload.org/
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # Block framing entirely (clickjacking). X-Frame-Options is legacy;
+  # frame-ancestors covers modern browsers. CF may add its own CSP later.
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+
+  # Anti-MIME-sniffing.
+  X-Content-Type-Options: nosniff
+
+  # Referer policy (CF already sets this; redeclared for clarity).
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Disable powerful features we don't use.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+
+  # Cross-origin isolation (modest; helps SharedArrayBuffer if ever needed).
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: same-site
+
+  # Hint to clients (and CDNs behind us) that this site is served over HTTPS only.
+  # CF also applies Always-Use-HTTPS via Automatic HTTPS Rewrites by default.
+
+  # Cache hint for HTML — short TTL + stale-while-revalidate keeps the
+  # origin lightly loaded while letting editors update quickly.
+  Cache-Control: public, max-age=0, must-revalidate
+
+# --- Static assets: cache aggressively -----------------------------------
+# Astro emits /assets/<hash>.{css,js} and serves /uploads/* verbatim.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/uploads/*
+  Cache-Control: public, max-age=604800
+  X-Content-Type-Options: nosniff
+
+# --- Search index (consumed client-side by SearchModal) ------------------
+/search-index.json
+  Cache-Control: public, max-age=300
+
+# --- Sitemap --------------------------------------------------------------
+/sitemap*.xml
+  Cache-Control: public, max-age=3600
+
+# --- Service-worker style endpoints --------------------------------------
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
