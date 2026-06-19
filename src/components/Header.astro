@@ -84,7 +84,7 @@ const isActive = (href?: string) =>
       <img
         src="/uploads/static/Logo-AESI-1-1.png"
         alt={site.name}
-        class="logo-color h-10 lg:h-12 w-auto transition-[filter] duration-200"
+        class="logo-color h-10 lg:h-12 w-auto"
         width="297"
         height="141"
       />
@@ -228,9 +228,6 @@ const isActive = (href?: string) =>
     color: #1a1a1a;
   }
   #main-header .logo-color { display: block; }
-  #main-header.transparent:not(.scrolled) .logo-color {
-    filter: brightness(0) invert(1);
-  }
   #main-header .nav-link { color: inherit; }
   #main-header .nav-link:hover { color: #00992e; }
   #main-header.transparent:not(.scrolled) .nav-link:hover { color: #ffffff; opacity: 0.85; }
