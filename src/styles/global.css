@@ -69,6 +69,21 @@ body {
   transition: transform 0.6s ease;
   overflow: hidden;
 }
+/* Constrain the wrap so oversized source images (some are 1024x681
+   while the card is only 405px wide) don't overflow and visually
+   bleed into adjacent cards. object-fit: cover on the image crops
+   to the wrap's aspect-ratio instead of letting the image's natural
+   dimensions expand the wrap. */
+.card .card-image-wrap {
+  overflow: hidden;
+}
+.card .card-image img,
+.card .card-zoom img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .card:hover .card-image img,
 .card:hover .card-zoom img,
 .card:hover .card-image,
