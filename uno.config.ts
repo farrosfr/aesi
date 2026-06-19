@@ -54,7 +54,7 @@ export default defineConfig({
     'utility-text': 'text-xs transition-colors',
     // Re-add an underline only on hover, used in footer nav links and
     // any place we want a real "click here" affordance.
-    'link-underline': 'underline underline-offset-2 hover:no-underline transition-colors',
+    'link-underline': 'hover:underline underline-offset-2 transition-colors',
     // Main nav links in the desktop header.
     'nav-link': 'block px-3 py-2 text-sm font-medium transition-colors',
   },

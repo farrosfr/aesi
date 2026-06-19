@@ -100,7 +100,10 @@ const isActive = (href?: string) =>
             <>
               <button
                 data-dropdown-trigger
-                class="appearance-none bg-transparent border-0 cursor-pointer nav-link px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1"
+                class:list={[
+                  'appearance-none bg-transparent border-0 cursor-pointer nav-link px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1',
+                  item.children?.some(c => isActive(c.href)) ? 'active' : '',
+                ]}
                 aria-expanded="false"
                 type="button"
               >
